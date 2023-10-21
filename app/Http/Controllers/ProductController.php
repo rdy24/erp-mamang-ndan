@@ -24,6 +24,16 @@ class ProductController extends Controller
         ]);
     }
 
+    public function show(Product $product)
+    {
+        $title = 'Hapus Produk';
+        $text = "Apakah anda yakin ingin menghapus produk ini?";
+        confirmDelete($title, $text);
+        return view('pages.products.show', [
+            'product' => $product,
+        ]);
+    }
+
     public function create()
     {
         return view('pages.products.create');

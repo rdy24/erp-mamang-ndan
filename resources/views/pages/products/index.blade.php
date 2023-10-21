@@ -28,43 +28,45 @@ Dashboard | {{ config('app.name') }}
         </div>
     </div>
     @forelse ($products as $product)
-    <div class="card px-2 py-3">
-        <div class="row">
-            <div class="col-md-3">
-                <img src="{{ $product->gambar ? asset('uploads/product/' . $product->gambar) : asset('assets/img/blank-image.png') }}"
-                    alt="" style="width: 250px; object-fit: cover; object-position: center;">
-            </div>
-            <div class="col-md-9">
-                <table class="table table-sm">
-                    <tr style="white-space: nowrap">
-                        <td width="30px">Kode Produk</td>
-                        <td width="10px">:</td>
-                        <td>{{ $product->kode_produk }}</td>
-                    </tr>
-                    <tr style="white-space: nowrap">
-                        <td>Nama Produk</td>
-                        <td>:</td>
-                        <td>{{ $product->nama_produk }}</td>
-                    </tr>
-                    <tr>
-                        <td>Jumlah</td>
-                        <td>:</td>
-                        <td>{{ $product->jumlah }}</td>
-                    </tr>
-                    <tr>
-                        <td>Harga</td>
-                        <td>:</td>
-                        <td>Rp. {{ number_format($product->harga) }}</td>
-                    </tr>
-                    <tr>
-                        <td>Deskripsi</td>
-                        <td>:</td>
-                        <td>{{ $product->deskripsi }}</td>
-                    </tr>
-                </table>
+    <a href="{{ route('dashboard.products.show', $product->id) }}" class="text-decoration-none text-dark">
+        <div class="card px-2 py-3">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="{{ $product->gambar ? asset('uploads/product/' . $product->gambar) : asset('assets/img/blank-image.png') }}"
+                        alt="" style="width: 250px; object-fit: cover; object-position: center;">
+                </div>
+                <div class="col-md-9">
+                    <table class="table table-sm">
+                        <tr style="white-space: nowrap">
+                            <td width="30px">Kode Produk</td>
+                            <td width="10px">:</td>
+                            <td>{{ $product->kode_produk }}</td>
+                        </tr>
+                        <tr style="white-space: nowrap">
+                            <td>Nama Produk</td>
+                            <td>:</td>
+                            <td>{{ $product->nama_produk }}</td>
+                        </tr>
+                        <tr>
+                            <td>Jumlah</td>
+                            <td>:</td>
+                            <td>{{ $product->jumlah }}</td>
+                        </tr>
+                        <tr>
+                            <td>Harga</td>
+                            <td>:</td>
+                            <td>Rp. {{ number_format($product->harga) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Deskripsi</td>
+                            <td>:</td>
+                            <td>{{ $product->deskripsi }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+    </a>
     @empty
     <div class="alert alert-info">
         Tidak ada produk

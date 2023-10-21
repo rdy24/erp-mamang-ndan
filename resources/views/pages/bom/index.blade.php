@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Bahan Baku | {{ config('app.name') }}
+BOM | {{ config('app.name') }}
 @endsection
 
 @push('css-libraries')
@@ -11,10 +11,10 @@ Bahan Baku | {{ config('app.name') }}
 
 @section('content')
 <div class="section-header">
-    <h1>Bahan Baku</h1>
+    <h1>BOM</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item active"><a href="{{ route('dashboard.') }}">Dashboard</a></div>
-        <div class="breadcrumb-item">Bahan Baku</div>
+        <div class="breadcrumb-item">BOM</div>
     </div>
 </div>
 
@@ -23,12 +23,9 @@ Bahan Baku | {{ config('app.name') }}
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex justify-content-between">
-                    <a href="{{ route('dashboard.materials.create') }}" class="btn btn-primary"><i class="fas fa-plus"
+                    <a href="{{ route('dashboard.bom.create') }}" class="btn btn-primary"><i class="fas fa-plus"
                             aria-hidden="true"></i>
                         Tambah Data</a>
-                    <a href="{{ route('dashboard.') }}" class=" btn btn-dark"><i class="fas fa-file-pdf"
-                            aria-hidden="true"></i>
-                        Cetak PDF</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -36,37 +33,24 @@ Bahan Baku | {{ config('app.name') }}
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kode Bahan</th>
-                                    <th>Nama Bahan</th>
-                                    <th>Jumlah</th>
-                                    <th>Harga</th>
-                                    <th>Gambar</th>
+                                    <th>Kode BOM</th>
+                                    <th>Produk</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($materials as $material)
+                                @foreach ($bom as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $material->kode_bahan }}</td>
-                                    <td>{{ $material->nama_bahan }}</td>
-                                    <td>{{ $material->jumlah }}</td>
-                                    <td>Rp. {{ number_format($material->harga) }}</td>
+                                    <td>{{ $item->kode_bom }}</td>
+                                    <td>{{ $item->product->nama_produk ?? '-' }}</td>
                                     <td>
-                                        <img src="{{ $material->gambar ? asset('uploads/material/' . $material->gambar) :
-                                        asset('assets/img/blank-image.png') }}" alt=""
-                                            style="height: 100px; object-fit: cover; object-position: center;">
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('dashboard.materials.edit', $material->id) }}"
-                                            class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                        <a href="{{ route('dashboard.materials.destroy', $material->id) }}"
-                                            class="btn btn-danger" data-confirm-delete="true"><i
-                                                class="fas fa-trash"></i></a>
+                                        <a href="{{ route('dashboard.bom.show', $item->id) }}"
+                                            class="btn btn-primary btn-sm"><i class="fas fa-eye"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach
-
                             </tbody>
                         </table>
                     </div>

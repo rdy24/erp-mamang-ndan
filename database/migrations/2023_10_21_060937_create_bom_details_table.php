@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('materials', function (Blueprint $table) {
+        Schema::create('bom_details', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_bahan')->nullable();
-            $table->string('nama_bahan')->nullable();
-            $table->string('harga')->nullable();
-            $table->string('jumlah')->nullable();
-            $table->string('satuan')->nullable();
-            $table->string('gambar')->nullable();
+            $table->foreignId('id_bahan')->references('id')->on('materials')->onDelete('cascade');
+            $table->foreignId('id_bom')->references('id')->on('boms')->onDelete('cascade');
+            $table->string('jumlah');
+            $table->string('satuan');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('materials');
+        Schema::dropIfExists('bom_details');
     }
 };
