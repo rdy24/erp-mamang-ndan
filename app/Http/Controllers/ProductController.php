@@ -65,4 +65,27 @@ class ProductController extends Controller
             'product' => $product,
         ]);
     }
+
+    public function update(ProductRequest $request, Product $product)
+    {
+        $data = $request->validated();
+
+        if ($request->hasFile('gambar')) {
+            $gambar = $request->file('gambar');
+            $namaFile = time() . '.' . $gambar->getClientOriginalExtension();
+            $gambar->move(public_path('uploads/product'), $namaFile);
+            $data['gambar'] = $namaFile;
+        }
+
+        $product->update($data);
+
+        return redirect()->route('dashboard.products')->with('success', 'Produk berhasil diubah');
+    }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+
+        return redirect()->route('dashboard.products')->with('success', 'Produk berhasil dihapus');
+    }
 }

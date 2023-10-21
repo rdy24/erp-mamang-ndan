@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Tambah BOM | {{ config('app.name') }}
+Edit BOM | {{ config('app.name') }}
 @endsection
 
 @push('css-libraries')
@@ -12,10 +12,10 @@ Tambah BOM | {{ config('app.name') }}
 
 @section('content')
 <div class="section-header">
-    <h1>Tambah BOM</h1>
+    <h1>Edit BOM</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item"><a href="#">Dashboard</a></div>
-        <div class="breadcrumb-item active">Tambah BOM</div>
+        <div class="breadcrumb-item active">Edit BOM</div>
     </div>
 </div>
 
@@ -24,12 +24,14 @@ Tambah BOM | {{ config('app.name') }}
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('dashboard.bom.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('dashboard.bom.update', $bom->id) }}" method="POST"
+                        enctype="multipart/form-data">
+                        @method('PUT')
                         @csrf
                         <div class="form-group">
                             <label for="kode_bom">Kode BOM</label>
                             <input type="text" class="form-control" id="kode_bom" name="kode_bom" required
-                                value="{{ old('kode_bom') }}">
+                                value="{{ old('kode_bom', $bom->kode_bom) }}">
                             @error('kode_bom')
                             <p class="text-danger">
                                 {{ $message }}
@@ -40,7 +42,8 @@ Tambah BOM | {{ config('app.name') }}
                             <label for="id_produk">Produk</label>
                             <select name="id_produk" required class="form-control select2">
                                 @foreach($products as $product)
-                                <option value="{{ $product->id }}" {{ old('id_produk')==$product->id ? 'selected' : ''
+                                <option value="{{ $product->id }}" {{ old('id_produk', $bom->id_produk)==$product->id ?
+                                    'selected' : ''
                                     }}>
                                     {{ $product->nama_produk }}
                                 </option>
@@ -50,11 +53,13 @@ Tambah BOM | {{ config('app.name') }}
                         <div class="form-group">
                             <label for="id_bahan">Bahan Baku</label>
                             <div id="bahan-baku-container">
+                                @foreach ($bom->bomDetail as $item)
                                 <div class="row form-bahan-baku mb-2">
                                     <div class="col-md-5">
                                         <select name="id_bahan[]" required class="form-control">
                                             @foreach($materials as $material)
-                                            <option value="{{ $material->id }}" {{ old('id_bahan[]')==$material->id ?
+                                            <option value="{{ $material->id }}" {{ old('id_bahan[]', $item->
+                                                id_bahan)==$material->id ?
                                                 'selected' :
                                                 ''
                                                 }}>
@@ -65,18 +70,25 @@ Tambah BOM | {{ config('app.name') }}
                                     </div>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control" name="jumlah[]" required
-                                            value="{{ old('jumlah[]') }}" placeholder="jumlah">
+                                            value="{{ old('jumlah[]', $item->jumlah) }}" placeholder="jumlah">
                                     </div>
                                     <div class="col-md-2">
                                         <select name="satuan[]" id="satuan" class="form-control">
-                                            <option value="kg">kg</option>
-                                            <option value="gram">gram</option>
-                                            <option value="liter">liter</option>
-                                            <option value="ml">ml</option>
-                                            <option value="pcs">pcs</option>
+                                            <option value="kg" {{ old('satuan[]', $item->satuan)=='kg' ? 'selected'
+                                                :''}}>kg</option>
+                                            <option value="gram" {{ old('satuan[]', $item->satuan)=='gram' ? 'selected'
+                                                :''}}>gram</option>
+                                            <option value="liter" {{ old('satuan[]', $item->satuan)=='liter' ?
+                                                'selected'
+                                                :''}}>liter</option>
+                                            <option value="ml" {{ old('satuan[]', $item->satuan)=='ml' ? 'selected'
+                                                :''}}>ml</option>
+                                            <option value="pcs" {{ old('satuan[]', $item->satuan)=='pcs' ? 'selected'
+                                                :''}}>pcs</option>
                                         </select>
                                     </div>
                                 </div>
+                                @endforeach
                                 <div id="button-add-remove">
                                     <button type="button" class="btn btn-primary" id="add-row"><i
                                             class="fas fa-plus"></i></button>
@@ -86,7 +98,7 @@ Tambah BOM | {{ config('app.name') }}
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Edit</button>
                         <a href="{{ route('dashboard.products') }}" class="btn btn-outline-primary">Batal</a>
                     </form>
                 </div>

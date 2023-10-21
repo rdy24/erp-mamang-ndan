@@ -30,7 +30,16 @@ class BomDetail extends Model
 
     public function getSubtotalAttribute()
     {
-        return $this->jumlah * $this->material->harga;
+        $covertedJumlah = 0;
+
+        if ($this->material->satuan == 'kg') {
+            $covertedJumlah = gramToKg($this->jumlah);
+        } else if ($this->material->satuan == 'liter') {
+            $covertedJumlah = mlToLiter($this->jumlah);
+        } else {
+            $covertedJumlah = $this->jumlah;
+        }
+        return $covertedJumlah * $this->material->harga;
     }
 
     public function getTotalHargaAttribute()

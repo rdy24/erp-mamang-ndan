@@ -20,12 +20,23 @@ Dashboard | {{ config('app.name') }}
             <a href="{{ route('dashboard.bom.destroy', $bom->id) }}" class="btn btn-danger" data-confirm-delete="true">
                 <i class="fas fa-trash"></i> Hapus
             </a>
+            <a href="{{ route('dashboard.bom.edit', $bom->id) }}" class="btn btn-dark">
+                <i class="fas fa-pdf"></i> Print
+            </a>
         </div>
     </div>
 
     <div class="card">
         <div class="table-responsive">
             <table class="table table-bordered">
+                <tr>
+                    <th colspan="2">Produk</th>
+                    <th>Harga</th>
+                </tr>
+                <tr>
+                    <td colspan="2">{{ $bom->product->nama_produk }}</td>
+                    <td>Rp. {{ number_format($bom->product->harga) }}</td>
+                </tr>
                 <tr>
                     <th>Bahan</th>
                     <th>Jumlah</th>

@@ -53,7 +53,9 @@ class BomController extends Controller
             }
         });
 
-        return redirect()->route('dashboard.bom')->with('success', 'BOM berhasil ditambahkan');
+        $bomId = Bom::latest()->first()->id;
+
+        return redirect()->route('dashboard.bom.show', $bomId)->with('success', 'BOM berhasil ditambahkan');
     }
 
     public function show(Bom $bom)
@@ -64,5 +66,48 @@ class BomController extends Controller
         return view('pages.bom.show', [
             'bom' => $bom,
         ]);
+    }
+
+    public function edit(Bom $bom): View
+    {
+        $products = Product::all();
+        $materials = Material::all();
+
+        return view('pages.bom.edit', [
+            'bom' => $bom,
+            'products' => $products,
+            'materials' => $materials,
+        ]);
+    }
+
+    public function update(BomRequest $request, Bom $bom)
+    {
+        $data = $request->validated();
+
+        DB::transaction(function () use ($data, $bom) {
+            $bom->update([
+                'kode_bom' => $data['kode_bom'],
+                'id_produk' => $data['id_produk'],
+            ]);
+
+            $bomDetail = BomDetail::where('id_bom', $bom->id)->get();
+
+            foreach ($bomDetail as $key => $value) {
+                $value->update([
+                    'id_bahan' => $data['id_bahan'][$key],
+                    'jumlah' => $data['jumlah'][$key],
+                    'satuan' => $data['satuan'][$key],
+                ]);
+            }
+        });
+
+        return redirect()->route('dashboard.bom.show', $bom->id)->with('success', 'BOM berhasil diubah');
+    }
+
+    public function destroy(Bom $bom)
+    {
+        $bom->delete();
+
+        return redirect()->route('dashboard.bom')->with('success', 'BOM berhasil dihapus');
     }
 }
