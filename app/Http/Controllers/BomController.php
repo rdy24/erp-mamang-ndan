@@ -8,6 +8,7 @@ use App\Models\BomDetail;
 use App\Models\Material;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -109,5 +110,14 @@ class BomController extends Controller
         $bom->delete();
 
         return redirect()->route('dashboard.bom')->with('success', 'BOM berhasil dihapus');
+    }
+
+    public function print(Bom $bom)
+    {
+        $pdf = PDF::loadview('pages.bom.print', [
+            'bom' => $bom,
+        ]);
+
+        return $pdf->download('bom-' . $bom->kode_bom . '.pdf');
     }
 }

@@ -52,6 +52,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'aut
     Route::get('/bom/{bom}/edit', [BomController::class, 'edit'])->name('bom.edit');
     Route::put('/bom/{bom}/update', [BomController::class, 'update'])->name('bom.update');
     Route::delete('/bom/{bom}/delete', [BomController::class, 'destroy'])->name('bom.destroy');
+    Route::get('/bom/{bom}/print', [BomController::class, 'print'])->name('bom.print');
 });
 
 
