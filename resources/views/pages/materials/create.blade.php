@@ -41,16 +41,6 @@ Tambah Bahan Baku | {{ config('app.name') }}
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="jumlah">Jumlah Bahan</label>
-                            <input type="text" class="form-control" id="jumlah" name="jumlah" required
-                                value="{{ old('jumlah') }}">
-                            @error('jumlah')
-                            <p class="text-danger">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                        </div>
-                        <div class="form-group">
                             <label for="harga">Harga Bahan</label>
                             <input type="text" class="form-control" id="harga" name="harga" required
                                 value="{{ old('harga') }}">
@@ -72,7 +62,7 @@ Tambah Bahan Baku | {{ config('app.name') }}
                             @enderror
                         </div>
                         <button type="submit" class="btn btn-primary">Simpan</button>
-                        <a href="{{ route('dashboard.products') }}" class="btn btn-outline-primary">Batal</a>
+                        <a href="{{ route('dashboard.products.index') }}" class="btn btn-outline-primary">Batal</a>
                     </form>
                 </div>
             </div>

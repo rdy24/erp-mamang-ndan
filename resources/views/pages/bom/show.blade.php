@@ -10,7 +10,7 @@ Dashboard | {{ config('app.name') }}
         <h1>{{ $bom->kode_bom }}</h1>
     </div>
     <div class="d-flex justify-content-between mb-3">
-        <a href="{{ route('dashboard.bom') }}" class="btn btn-primary">
+        <a href="{{ route('dashboard.bom.index') }}" class="btn btn-primary">
             <i class="fas fa-arrow-left"></i> Kembali
         </a>
         <div>
@@ -21,7 +21,7 @@ Dashboard | {{ config('app.name') }}
                 <i class="fas fa-trash"></i> Hapus
             </a>
             <a href="{{ route('dashboard.bom.print', $bom->id) }}" class="btn btn-dark">
-                <i class="fas fa-pdf"></i> Print
+                <i class="fas fa-file-pdf"></i> Print
             </a>
         </div>
     </div>

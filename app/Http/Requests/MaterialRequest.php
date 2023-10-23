@@ -25,8 +25,7 @@ class MaterialRequest extends FormRequest
             'kode_bahan' => 'required|string|max:255',
             'nama_bahan' => 'required|string|max:255',
             'harga' => 'required|integer',
-            'jumlah' => 'required|integer',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'gambar' => 'image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 
@@ -40,9 +39,7 @@ class MaterialRequest extends FormRequest
             'kode_bahan.required' => 'Kode Bahan harus diisi',
             'nama_bahan.required' => 'Nama Bahan harus diisi',
             'harga.required' => 'Harga harus diisi',
-            'jumlah.required' => 'Jumlah harus diisi',
             'deskripsi.required' => 'Deskripsi harus diisi',
-            'gambar.required' => 'Gambar harus diisi',
             'gambar.image' => 'Gambar harus berupa file gambar',
             'gambar.mimes' => 'Gambar harus berupa jpeg, png, jpg',
         ];

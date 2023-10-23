@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -41,22 +42,26 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        $gambar = $request->file('gambar');
-        $namaFile = time() . '.' . $gambar->getClientOriginalExtension();
-        $gambar->move(public_path('uploads/product'), $namaFile);
+        if ($request->file('gambar')) {
+            $gambar = $request->file('gambar');
+            $namaFile = time() . '.' . $gambar->getClientOriginalExtension();
+            $gambar->move(public_path('uploads/product'), $namaFile);
+        } else {
+            $namaFile = null;
+        }
 
         // insert data ke database
         Product::create([
             'kode_produk' => $request->kode_produk,
             'nama_produk' => $request->nama_produk,
             'harga' => $request->harga,
-            'jumlah' => $request->jumlah,
+            'jumlah' => 0,
             'deskripsi' => $request->deskripsi,
             'gambar' => $namaFile,
         ]);
 
         // redirect ke halaman products
-        return redirect()->route('dashboard.products')->with('success', 'Produk berhasil ditambahkan');
+        return redirect()->route('dashboard.products.index')->with('success', 'Produk berhasil ditambahkan');
     }
 
     public function edit(Product $product)
@@ -68,24 +73,33 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, Product $product)
     {
-        $data = $request->validated();
-
-        if ($request->hasFile('gambar')) {
+        if ($request->file('gambar')) {
             $gambar = $request->file('gambar');
             $namaFile = time() . '.' . $gambar->getClientOriginalExtension();
             $gambar->move(public_path('uploads/product'), $namaFile);
-            $data['gambar'] = $namaFile;
+
+            if ($product->gambar) {
+                Storage::delete('public/uploads/product' . $product->gambar);
+            }
+        } else {
+            $namaFile = $product->gambar;
         }
 
-        $product->update($data);
+        $product->update([
+            'kode_produk' => $request->kode_produk,
+            'nama_produk' => $request->nama_produk,
+            'harga' => $request->harga,
+            'deskripsi' => $request->deskripsi,
+            'gambar' => $namaFile,
+        ]);
 
-        return redirect()->route('dashboard.products')->with('success', 'Produk berhasil diubah');
+        return redirect()->route('dashboard.products.index')->with('success', 'Produk berhasil diubah');
     }
 
     public function destroy(Product $product)
     {
         $product->delete();
 
-        return redirect()->route('dashboard.products')->with('success', 'Produk berhasil dihapus');
+        return redirect()->route('dashboard.products.index')->with('success', 'Produk berhasil dihapus');
     }
 }

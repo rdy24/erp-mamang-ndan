@@ -32,9 +32,9 @@ class BomDetail extends Model
     {
         $covertedJumlah = 0;
 
-        if ($this->material->satuan == 'kg') {
+        if ($this->satuan == 'gram') {
             $covertedJumlah = gramToKg($this->jumlah);
-        } else if ($this->material->satuan == 'liter') {
+        } else if ($this->satuan == 'ml') {
             $covertedJumlah = mlToLiter($this->jumlah);
         } else {
             $covertedJumlah = $this->jumlah;

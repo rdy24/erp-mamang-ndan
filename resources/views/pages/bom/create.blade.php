@@ -73,7 +73,6 @@ Tambah BOM | {{ config('app.name') }}
                                             <option value="gram">gram</option>
                                             <option value="liter">liter</option>
                                             <option value="ml">ml</option>
-                                            <option value="pcs">pcs</option>
                                         </select>
                                     </div>
                                 </div>
@@ -87,7 +86,7 @@ Tambah BOM | {{ config('app.name') }}
                         </div>
 
                         <button type="submit" class="btn btn-primary">Simpan</button>
-                        <a href="{{ route('dashboard.products') }}" class="btn btn-outline-primary">Batal</a>
+                        <a href="{{ route('dashboard.products.index') }}" class="btn btn-outline-primary">Batal</a>
                     </form>
                 </div>
             </div>

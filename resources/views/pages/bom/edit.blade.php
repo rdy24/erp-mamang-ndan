@@ -99,7 +99,7 @@ Edit BOM | {{ config('app.name') }}
                         </div>
 
                         <button type="submit" class="btn btn-primary">Edit</button>
-                        <a href="{{ route('dashboard.products') }}" class="btn btn-outline-primary">Batal</a>
+                        <a href="{{ route('dashboard.products.index') }}" class="btn btn-outline-primary">Batal</a>
                     </form>
                 </div>
             </div>

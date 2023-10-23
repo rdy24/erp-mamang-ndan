@@ -109,7 +109,7 @@ class BomController extends Controller
     {
         $bom->delete();
 
-        return redirect()->route('dashboard.bom')->with('success', 'BOM berhasil dihapus');
+        return redirect()->route('dashboard.bom.index')->with('success', 'BOM berhasil dihapus');
     }
 
     public function print(Bom $bom)

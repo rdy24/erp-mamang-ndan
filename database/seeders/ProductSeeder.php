@@ -16,14 +16,40 @@ class ProductSeeder extends Seeder
         // faker id
         $faker = \Faker\Factory::create('id_ID');
 
-        // insert data dummy products
-        for ($i = 0; $i < 10; $i++) {
+        $data = [
+            [
+                'id' => 1,
+                'kode_produk' => 'S0001',
+                'nama_produk' => 'Seblak Makaroni',
+                'harga' => 22500,
+                'jumlah' => 0,
+                'deskripsi' => 'Seblak dengan topping makaroni',
+            ],
+            [
+                'id' => 2,
+                'kode_produk' => 'S0002',
+                'nama_produk' => 'Seblak Ceker Ayam',
+                'harga' => 17500,
+                'jumlah' => 0,
+                'deskripsi' => 'Seblak dengan ceker ayam',
+            ],
+            [
+                'id' => 3,
+                'kode_produk' => 'S0003',
+                'nama_produk' => 'Seblak Bakso',
+                'harga' => 21500,
+                'jumlah' => 0,
+                'deskripsi' => 'Seblak dengan bakso',
+            ],
+        ];
+
+        foreach ($data as $key => $value) {
             Product::create([
-                'kode_produk' => 'S' . $faker->unique()->randomNumber(4),
-                'nama_produk' => 'Seblak ' . $faker->unique()->word(),
-                'harga' => $faker->randomNumber(5),
-                'jumlah' => $faker->randomNumber(2),
-                'deskripsi' => $faker->text,
+                'kode_produk' => $value['kode_produk'],
+                'nama_produk' => $value['nama_produk'],
+                'harga' => $value['harga'],
+                'jumlah' => $value['jumlah'],
+                'deskripsi' => $value['deskripsi'],
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

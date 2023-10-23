@@ -10,7 +10,7 @@ Dashboard | {{ config('app.name') }}
         <h1>{{ $product->nama_produk }}</h1>
     </div>
     <div class="d-flex justify-content-between mb-3">
-        <a href="{{ route('dashboard.products') }}" class="btn btn-primary">
+        <a href="{{ route('dashboard.products.index') }}" class="btn btn-primary">
             <i class="fas fa-arrow-left"></i> Kembali
         </a>
         <div>

@@ -25,9 +25,8 @@ class ProductRequest extends FormRequest
             'kode_produk' => 'required|string|max:255',
             'nama_produk' => 'required|string|max:255',
             'harga' => 'required|integer',
-            'jumlah' => 'required|integer',
             'deskripsi' => 'required|string',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'gambar' => 'image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 
@@ -40,9 +39,7 @@ class ProductRequest extends FormRequest
             'kode_produk.required' => 'Kode produk harus diisi',
             'nama_produk.required' => 'Nama produk harus diisi',
             'harga.required' => 'Harga harus diisi',
-            'jumlah.required' => 'Jumlah harus diisi',
             'deskripsi.required' => 'Deskripsi harus diisi',
-            'gambar.required' => 'Gambar harus diisi',
             'gambar.image' => 'Gambar harus berupa file gambar',
             'gambar.mimes' => 'Gambar harus berupa file gambar jpeg, png, jpg',
         ];

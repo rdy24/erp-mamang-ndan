@@ -13,15 +13,17 @@
             </li>
             <li class="menu-header">Manufacturing</li>
             <li class="{{ request()->routeIs('dashboard.products.*') ? 'active' : '' }}"><a
-                    href="{{ route('dashboard.products') }}" class="nav-link"><i
-                        class="fas fa-fire"></i><span>Produk</span></a>
+                    href="{{ route('dashboard.products.index') }}" class="nav-link"><i
+                        class="fas fa-box-open"></i><span>Produk</span></a>
             </li>
             <li class="{{ request()->routeIs('dashboard.materials.*') ? 'active' : '' }}"><a
-                    href="{{ route('dashboard.materials') }}" class="nav-link"><i class="fas fa-fire"></i><span>Bahan
+                    href="{{ route('dashboard.materials.index') }}" class="nav-link"><i
+                        class="fas fa-beer"></i><span>Bahan
                         Baku</span></a>
             </li>
             <li class="{{ request()->routeIs('dashboard.bom.*') ? 'active' : '' }}"><a
-                    href="{{ route('dashboard.bom') }}" class="nav-link"><i class="fas fa-fire"></i><span>BOM</span></a>
+                    href="{{ route('dashboard.bom.index') }}" class="nav-link"><i
+                        class="fas fa-archive"></i><span>BOM</span></a>
             </li>
         </ul>
     </aside>

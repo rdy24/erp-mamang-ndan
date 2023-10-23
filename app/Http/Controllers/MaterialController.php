@@ -27,22 +27,26 @@ class MaterialController extends Controller
 
     public function store(MaterialRequest $request)
     {
-        $gambar = $request->file('gambar');
-        $namaFile = time() . '.' . $gambar->getClientOriginalExtension();
-        $gambar->move(public_path('uploads/material'), $namaFile);
+        if ($request->file('gambar')) {
+            $gambar = $request->file('gambar');
+            $namaFile = time() . '.' . $gambar->getClientOriginalExtension();
+            $gambar->move(public_path('uploads/material'), $namaFile);
+        } else {
+            $namaFile = null;
+        }
 
         // insert data ke database
         Material::create([
             'kode_bahan' => $request->kode_bahan,
             'nama_bahan' => $request->nama_bahan,
             'harga' => $request->harga,
-            'jumlah' => $request->jumlah,
+            'jumlah' => 0,
             'deskripsi' => $request->deskripsi,
             'gambar' => $namaFile,
         ]);
 
         // redirect ke halaman products
-        return redirect()->route('dashboard.materials')->with('success', 'Bahan berhasil ditambahkan');
+        return redirect()->route('dashboard.materials.index')->with('success', 'Bahan berhasil ditambahkan');
     }
 
     public function edit(Material $material)
@@ -71,19 +75,19 @@ class MaterialController extends Controller
             'kode_bahan' => $request->kode_bahan,
             'nama_bahan' => $request->nama_bahan,
             'harga' => $request->harga,
-            'jumlah' => $request->jumlah,
+            'jumlah' => 0,
             'deskripsi' => $request->deskripsi,
             'gambar' => $namaFile,
         ]);
 
         // redirect ke halaman products
-        return redirect()->route('dashboard.materials')->with('success', 'Bahan berhasil diupdate');
+        return redirect()->route('dashboard.materials.index')->with('success', 'Bahan berhasil diupdate');
     }
 
     public function destroy(Material $material)
     {
         $material->delete();
 
-        return redirect()->route('dashboard.materials')->with('success', 'Bahan berhasil dihapus');
+        return redirect()->route('dashboard.materials.index')->with('success', 'Bahan berhasil dihapus');
     }
 }

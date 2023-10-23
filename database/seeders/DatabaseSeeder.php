@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ProductSeeder::class,
             MaterialSeeder::class,
+            BomSeeder::class,
         ]);
     }
 }

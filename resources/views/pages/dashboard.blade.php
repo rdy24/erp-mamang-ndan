@@ -13,14 +13,14 @@ Dashboard | {{ config('app.name') }}
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="card card-statistic-1">
                 <div class="card-icon bg-primary">
-                    <i class="fas fa-plane-arrival"></i>
+                    <i class="fas fa-box-open"></i>
                 </div>
                 <div class="card-wrap">
                     <div class="card-header">
                         <h4>Produk</h4>
                     </div>
                     <div class="card-body">
-                        0
+                        {{ $countProduct }}
                     </div>
                 </div>
             </div>
@@ -28,14 +28,14 @@ Dashboard | {{ config('app.name') }}
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="card card-statistic-1">
                 <div class="card-icon bg-danger">
-                    <i class="fas fa-route"></i>
+                    <i class="fas fa-beer"></i>
                 </div>
                 <div class="card-wrap">
                     <div class="card-header">
                         <h4>Bahan Baku</h4>
                     </div>
                     <div class="card-body">
-                        0
+                        {{ $countMaterial }}
                     </div>
                 </div>
             </div>
