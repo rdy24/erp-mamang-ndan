@@ -25,6 +25,10 @@
                     href="{{ route('dashboard.bom.index') }}" class="nav-link"><i
                         class="fas fa-archive"></i><span>BOM</span></a>
             </li>
+            <li class="{{ request()->routeIs('dashboard.manufacturing-orders.*') ? 'active' : '' }}"><a
+                    href="{{ route('dashboard.manufacturing-orders.index') }}" class="nav-link"><i
+                        class="fas fa-archive"></i><span>Manufacturing Orders</span></a>
+            </li>
         </ul>
     </aside>
 </div>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\BomController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ManufacturingOrderController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/', [LoginController::class, 'authenticate'])->name('login.authenticate')->middleware('guest');
 Route::post('/logout', [LoginController::class, 'logout']);
+
+Route::get('/get-bom/{jumlah}/{id}', [ManufacturingOrderController::class, 'getBomDetail'])->name('get-bom');
 
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'auth'], function () {
 
@@ -53,6 +56,15 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'aut
     Route::put('/bom/{bom}/update', [BomController::class, 'update'])->name('bom.update');
     Route::delete('/bom/{bom}/delete', [BomController::class, 'destroy'])->name('bom.destroy');
     Route::get('/bom/{bom}/print', [BomController::class, 'print'])->name('bom.print');
+
+    Route::get('/manufacturing-orders', [ManufacturingOrderController::class, 'index'])->name('manufacturing-orders.index');
+    Route::get('/manufacturing-orders/create', [ManufacturingOrderController::class, 'create'])->name('manufacturing-orders.create');
+    Route::post('/manufacturing-orders/store', [ManufacturingOrderController::class, 'store'])->name('manufacturing-orders.store');
+    Route::get('/manufacturing-orders/{manufacturingOrder}', [ManufacturingOrderController::class, 'show'])->name('manufacturing-orders.show');
+    Route::get('/manufacturing-orders/{manufacturingOrder}/edit', [ManufacturingOrderController::class, 'edit'])->name('manufacturing-orders.edit');
+    Route::put('/manufacturing-orders/{manufacturingOrder}/update', [ManufacturingOrderController::class, 'update'])->name('manufacturing-orders.update');
+    Route::delete('/manufacturing-orders/{manufacturingOrder}/delete', [ManufacturingOrderController::class, 'destroy'])->name('manufacturing-orders.destroy');
+
 });
 
 
