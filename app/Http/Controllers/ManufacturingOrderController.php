@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bom;
 use App\Models\ManufacturingOrder;
 use App\Models\ManufacturingOrderDetail;
+use App\Models\Material;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -106,5 +107,57 @@ class ManufacturingOrderController extends Controller
         ];
 
         return response()->json($data);
+    }
+
+    public function confirm(ManufacturingOrder $manufacturingOrder)
+    {
+        if(!$manufacturingOrder) {
+            abort(404);
+        }
+        $manufacturingOrder->update([
+            'status' => 'Confirmed',
+        ]);
+
+        return redirect()->route('dashboard.manufacturing-orders.show', $manufacturingOrder)->with('success', 'Manufacturing Order berhasil dikonfirmasi');
+    }
+
+    public function progress(ManufacturingOrder $manufacturingOrder)
+    {
+        if(!$manufacturingOrder) {
+            abort(404);
+        }
+        $manufacturingOrder->update([
+            'status' => 'In-Progress',
+        ]);
+
+        return redirect()->route('dashboard.manufacturing-orders.show', $manufacturingOrder)->with('success', 'Manufacturing Order akan diproses');
+    }
+
+    public function done(ManufacturingOrder $manufacturingOrder)
+    {
+        
+        $product = Product::find($manufacturingOrder->id_produk);
+        
+        if(!$manufacturingOrder || !$product) {
+            abort(404);
+        }
+
+        foreach ($manufacturingOrder->manufacturingOrderDetails as $item) {
+            $material = Material::find($item->id_bahan);
+            $material->update([
+                'jumlah' => $material->jumlah - $item->jumlah,
+            ]);
+        }
+
+        $product->update([
+            'jumlah' => $product->jumlah + $manufacturingOrder->jumlah_order,
+        ]);
+
+
+        $manufacturingOrder->update([
+            'status' => 'Done',
+        ]);
+
+        return redirect()->route('dashboard.manufacturing-orders.show', $manufacturingOrder)->with('success', 'Manufacturing Order berhasil dikonfirmasi');
     }
 }

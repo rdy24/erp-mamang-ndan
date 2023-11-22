@@ -29,6 +29,10 @@
                     href="{{ route('dashboard.manufacturing-orders.index') }}" class="nav-link"><i
                         class="fas fa-archive"></i><span>Manufacturing Orders</span></a>
             </li>
+            <li class="{{ request()->routeIs('dashboard.vendors.*') ? 'active' : '' }}"><a
+                    href="{{ route('dashboard.vendors.index') }}" class="nav-link"><i
+                        class="fas fa-archive"></i><span>Vendors</span></a>
+            </li>
         </ul>
     </aside>
 </div>

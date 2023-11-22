@@ -14,17 +14,17 @@ Dashboard | {{ config('app.name') }}
             <a href="{{ route('dashboard.manufacturing-orders.index') }}" class="btn btn-primary">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
-            <a href="{{ route('dashboard.manufacturing-orders.edit', $manufacturingOrder->id) }}"
-                class="btn btn-warning">
-                <i class="fas fa-pen"></i> Confirm
+            <a href="{{ route('dashboard.manufacturing-orders.confirm', $manufacturingOrder->id) }}"
+                class="btn btn-info">
+                <i class="fas fa-check"></i> Confirm
             </a>
-            <a href="{{ route('dashboard.manufacturing-orders.destroy', $manufacturingOrder->id) }}"
-                class="btn btn-danger" data-confirm-delete="true">
-                <i class="fas fa-trash"></i> On Progress
+            <a href="{{ route('dashboard.manufacturing-orders.progress', $manufacturingOrder->id) }}"
+                class="btn btn-dark">
+                <i class="fas fa-procedures"></i> On Progress
             </a>
-            <a href="{{ route('dashboard.manufacturing-orders.destroy', $manufacturingOrder->id) }}"
-                class="btn btn-danger">
-                <i class="fas fa-trash"></i> Done
+            <a href="{{ route('dashboard.manufacturing-orders.done', $manufacturingOrder->id) }}"
+                class="btn btn-success">
+                <i class="fas fa-check-square"></i> Done
             </a>
         </div>
         <div>

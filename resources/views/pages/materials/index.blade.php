@@ -50,7 +50,7 @@ Bahan Baku | {{ config('app.name') }}
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $material->kode_bahan }}</td>
                                     <td>{{ $material->nama_bahan }}</td>
-                                    <td>{{ $material->jumlah }}</td>
+                                    <td>{{ $material->jumlah }} {{ $material->satuan }}</td>
                                     <td>Rp. {{ number_format($material->harga) }}</td>
                                     <td>
                                         <img src="{{ $material->gambar ? asset('uploads/material/' . $material->gambar) :

@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManufacturingOrderController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,6 +65,17 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'aut
     Route::get('/manufacturing-orders/{manufacturingOrder}/edit', [ManufacturingOrderController::class, 'edit'])->name('manufacturing-orders.edit');
     Route::put('/manufacturing-orders/{manufacturingOrder}/update', [ManufacturingOrderController::class, 'update'])->name('manufacturing-orders.update');
     Route::delete('/manufacturing-orders/{manufacturingOrder}/delete', [ManufacturingOrderController::class, 'destroy'])->name('manufacturing-orders.destroy');
+    Route::get('/manufacturing-orders/{manufacturingOrder}/confirm', [ManufacturingOrderController::class, 'confirm'])->name('manufacturing-orders.confirm');
+    Route::get('/manufacturing-orders/{manufacturingOrder}/progress', [ManufacturingOrderController::class, 'progress'])->name('manufacturing-orders.progress');
+    Route::get('/manufacturing-orders/{manufacturingOrder}/done', [ManufacturingOrderController::class, 'done'])->name('manufacturing-orders.done');
+
+    Route::get('/vendors', [VendorController::class, 'index'])->name('vendors.index');
+    Route::get('/vendors/create', [VendorController::class, 'create'])->name('vendors.create');
+    Route::post('/vendors/store', [VendorController::class, 'store'])->name('vendors.store');
+    Route::get('/vendors/{vendor}', [VendorController::class, 'show'])->name('vendors.show');
+    Route::get('/vendors/{vendor}/edit', [VendorController::class, 'edit'])->name('vendors.edit');
+    Route::put('/vendors/{vendor}/update', [VendorController::class, 'update'])->name('vendors.update');
+    Route::delete('/vendors/{vendor}/delete', [VendorController::class, 'destroy'])->name('vendors.destroy');
 
 });
 
