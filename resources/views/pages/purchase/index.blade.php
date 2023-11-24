@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Request For Quotations | {{ config('app.name') }}
+{{ $title }} | {{ config('app.name') }}
 @endsection
 
 @push('css-libraries')
@@ -11,10 +11,10 @@ Request For Quotations | {{ config('app.name') }}
 
 @section('content')
 <div class="section-header">
-    <h1>Request For Quotations</h1>
+    <h1>{{ $title }}</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item active"><a href="{{ route('dashboard.') }}">Dashboard</a></div>
-        <div class="breadcrumb-item">Request For Quotations</div>
+        <div class="breadcrumb-item">{{ $title }}</div>
     </div>
 </div>
 
@@ -23,9 +23,11 @@ Request For Quotations | {{ config('app.name') }}
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex justify-content-between">
-                    <a href="{{ route('dashboard.purchase.create') }}" class="btn btn-primary"><i class="fas fa-plus"
-                            aria-hidden="true"></i>
+                    @if (!$isPurchaseOrder)
+                    <a href="{{ route('dashboard.purchase.rfq.create') }}" class="btn btn-primary"><i
+                            class="fas fa-plus" aria-hidden="true"></i>
                         Tambah Data</a>
+                    @endif
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -36,20 +38,26 @@ Request For Quotations | {{ config('app.name') }}
                                     <th>Kode</th>
                                     <th>Vendor</th>
                                     <th>Total Harga</th>
-                                    <th>Status</th>
+                                    <th>{{ $isPurchaseOrder ? 'Bill Status' : 'Status' }}</th>
+                                    @if ($isPurchaseOrder)
+                                    <th>Tanggal Konfirmasi</th>
+                                    @endif
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($requestForQuotations as $item)
+                                @foreach ($purchases as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->kode_rfq }}</td>
+                                    <td>{{ $item->kode_purchase }}</td>
                                     <td>{{ $item->vendor->name ?? '-' }}</td>
-                                    <td>{{ $item->total }}</td>
-                                    <td>{{ $item->status }}</td>
+                                    <td>Rp. {{ number_format($item->total_harga) }}</td>
+                                    <td>{{ $isPurchaseOrder ? $item->bill_status : $item->status }}</td>
+                                    @if ($isPurchaseOrder)
+                                    <td>{{ $item->confirm_date ? $item->confirm_date->format('d M Y') : '-' }}</td>
+                                    @endif
                                     <td>
-                                        <a href="{{ route('dashboard.manufacturing-orders.show', $item->id) }}"
+                                        <a href="{{ route($isPurchaseOrder ? 'dashboard.purchase-order.show' : 'dashboard.purchase.rfq.show', $item->id) }}"
                                             class="btn btn-primary btn-sm"><i class="fas fa-eye"></i>
                                         </a>
                                     </td>

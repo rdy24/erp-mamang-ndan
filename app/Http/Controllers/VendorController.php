@@ -41,7 +41,7 @@ class VendorController extends Controller
         if ($request->file('gambar')) {
             $gambar = $request->file('gambar');
             $namaFile = time() . '.' . $gambar->getClientOriginalExtension();
-            $gambar->move(public_path('uploads/product'), $namaFile);
+            $gambar->move(public_path('uploads/vendor'), $namaFile);
         } else {
             $namaFile = null;
         }

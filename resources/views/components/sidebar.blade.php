@@ -29,9 +29,18 @@
                     href="{{ route('dashboard.manufacturing-orders.index') }}" class="nav-link"><i
                         class="fas fa-archive"></i><span>Manufacturing Orders</span></a>
             </li>
+            <li class="menu-header">Purchase</li>
             <li class="{{ request()->routeIs('dashboard.vendors.*') ? 'active' : '' }}"><a
                     href="{{ route('dashboard.vendors.index') }}" class="nav-link"><i
                         class="fas fa-archive"></i><span>Vendors</span></a>
+            </li>
+            <li class="{{ request()->routeIs('dashboard.purchase.*') ? 'active' : '' }}"><a
+                    href="{{ route('dashboard.purchase.rfq') }}" class="nav-link"><i
+                        class="fas fa-archive"></i><span>RFQ</span></a>
+            </li>
+            <li class="{{ request()->routeIs('dashboard.purchase-order.*') ? 'active' : '' }}"><a
+                    href="{{ route('dashboard.purchase-order.index') }}" class="nav-link"><i
+                        class="fas fa-archive"></i><span>Purchase Order</span></a>
             </li>
         </ul>
     </aside>

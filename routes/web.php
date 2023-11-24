@@ -6,6 +6,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManufacturingOrderController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RequestForQuotationController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,7 +43,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'aut
     Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/products/{product}/update', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}/delete', [ProductController::class, 'destroy'])->name('products.destroy');
-    
+
     Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
     Route::get('/materials/create', [MaterialController::class, 'create'])->name('materials.create');
     Route::post('/materials/store', [MaterialController::class, 'store'])->name('materials.store');
@@ -76,6 +78,19 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'aut
     Route::get('/vendors/{vendor}/edit', [VendorController::class, 'edit'])->name('vendors.edit');
     Route::put('/vendors/{vendor}/update', [VendorController::class, 'update'])->name('vendors.update');
     Route::delete('/vendors/{vendor}/delete', [VendorController::class, 'destroy'])->name('vendors.destroy');
+
+    Route::get('/rfq', [PurchaseController::class, 'index'])->name('purchase.rfq');
+    Route::get('/rfq/create', [PurchaseController::class, 'rfqCreate'])->name('purchase.rfq.create');
+    Route::post('/rfq/store', [PurchaseController::class, 'rfqStore'])->name('purchase.rfq.store');
+    Route::get('/rfq/{purchase}', [PurchaseController::class, 'show'])->name('purchase.rfq.show');
+    Route::get('/rfq/{purchase}/confirm', [PurchaseController::class, 'rfqConfirm'])->name('purchase.rfq.confirm');
+    Route::get('/purchase-order', [PurchaseController::class, 'index'])->name('purchase-order.index');
+    Route::get('/purchase-order/{purchase}', [PurchaseController::class, 'show'])->name('purchase-order.show');
+    Route::get('/purchase-order/{purchase}/receive', [PurchaseController::class, 'purchaseOrderReceive'])->name('purchase-order.receive');
+    Route::get('/purchase-order/{purchase}/validate', [PurchaseController::class, 'purchaseOrderValidate'])->name('purchase-order.validate');
+    Route::get('/purchase-order/{purchase}/create-bill', [PurchaseController::class, 'purchaseOrderCreateBill'])->name('purchase-order.bill.create');
+    Route::post('/purchase-order/{purchase}/store-bill', [PurchaseController::class, 'purchaseOrderStoreBill'])->name('purchase-order.bill.store');
+    Route::get('/purchase-order/{purchase}/post-bill', [PurchaseController::class, 'purchaseOrderPostBill'])->name('purchase-order.bill.post');
 
 });
 

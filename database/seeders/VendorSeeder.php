@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Vendor;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,7 +17,7 @@ class VendorSeeder extends Seeder
 
         for ($i = 0; $i < 7; $i++) {
             $data = [
-                'kode_vendor' =>  'VN-000' . $i,
+                'kode_vendor' =>  Vendor::setKodeVendor(),
                 'name' => $faker->name,
                 'address' => $faker->address,
                 'phone' => $faker->phoneNumber,
