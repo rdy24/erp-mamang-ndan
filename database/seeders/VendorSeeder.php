@@ -15,14 +15,22 @@ class VendorSeeder extends Seeder
     {
         $faker = \Faker\Factory::create('id_ID');
 
-        for ($i = 0; $i < 7; $i++) {
+        $vendorName = [
+            'PT. Makmur Jaya',
+            'PT. Jaya Abadi',
+            'PT. Jaya Makmur',
+            'PT. Abadi Makmur',
+            'PT. Abadi Jaya',
+        ];
+
+        for ($i = 0; $i < 5; $i++) {
             $data = [
                 'kode_vendor' =>  Vendor::setKodeVendor(),
-                'name' => $faker->name,
+                'name' => $vendorName[$i],
                 'address' => $faker->address,
                 'phone' => $faker->phoneNumber,
                 'email' => $faker->email,
-                'type' => $faker->randomElement(['individual', 'company']),
+                'type' => 'company',
             ];
 
             \App\Models\Vendor::create($data);

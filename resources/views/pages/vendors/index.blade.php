@@ -28,45 +28,63 @@ Dashboard | {{ config('app.name') }}
         </div>
     </div>
     @forelse ($vendors as $vendor)
-    <a href="{{ route('dashboard.vendors.show', $vendor->id) }}" class="text-decoration-none text-dark">
-        <div class="card px-2 py-3">
-            <div class="row">
-                <div class="col-md-3">
-                    <img src="{{ $vendor->gambar ? asset('uploads/vendor/' . $vendor->gambar) : asset('assets/img/blank-image.png') }}"
-                        alt="" style="width: 250px; object-fit: cover; object-position: center;">
-                </div>
-                <div class="col-md-9">
-                    <table class="table table-sm">
-                        <tr style="white-space: nowrap">
-                            <td width="30px">Kode Vendor</td>
-                            <td width="10px">:</td>
-                            <td>{{ $vendor->kode_vendor }}</td>
-                        </tr>
-                        <tr style="white-space: nowrap">
-                            <td>Nama</td>
-                            <td>:</td>
-                            <td>{{ $vendor->name }}</td>
-                        </tr>
-                        <tr>
-                            <td>Email</td>
-                            <td>:</td>
-                            <td>{{ $vendor->email }}</td>
-                        </tr>
-                        <tr>
-                            <td>Phone</td>
-                            <td>:</td>
-                            <td>{{ $vendor->phone }}</td>
-                        </tr>
-                        <tr>
-                            <td>Tipe</td>
-                            <td>:</td>
-                            <td>{{ $vendor->type }}</td>
-                        </tr>
-                    </table>
+    <div class="card px-2 py-3">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="{{ $vendor->gambar ? asset('uploads/vendor/' . $vendor->gambar) : asset('assets/img/blank-image.png') }}"
+                    alt="" style="width: 250px; object-fit: cover; object-position: center;">
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-9">
+                        <table class="table table-sm">
+                            <tr style="white-space: nowrap">
+                                <td width="30px">Kode Vendor</td>
+                                <td width="10px">:</td>
+                                <td>{{ $vendor->kode_vendor }}</td>
+                            </tr>
+                            <tr style="white-space: nowrap">
+                                <td>Nama</td>
+                                <td>:</td>
+                                <td>{{ $vendor->name }}</td>
+                            </tr>
+                            @if ($vendor->type == 'individual')
+                            <tr>
+                                <td>Jabatan</td>
+                                <td>:</td>
+                                <td>{{ $vendor->position }} di {{ $vendor->company_name }}</td>
+                            </tr>
+                            @endif
+                            <tr>
+                                <td>Email</td>
+                                <td>:</td>
+                                <td>{{ $vendor->email }}</td>
+                            </tr>
+                            <tr>
+                                <td>Phone</td>
+                                <td>:</td>
+                                <td>{{ $vendor->phone }}</td>
+                            </tr>
+                            <tr>
+                                <td>Alamat</td>
+                                <td>:</td>
+                                <td>{{ $vendor->address }}</td>
+                            </tr>
+                            <tr>
+                                <td>Tipe</td>
+                                <td>:</td>
+                                <td>{{ $vendor->type }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="" class="btn btn-warning">Edit</a>
+                        <a href="" class="btn btn-danger">Hapus</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </a>
+    </div>
     @empty
     <div class="alert alert-info">
         Tidak ada vendor

@@ -32,6 +32,8 @@ Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::get('/get-bom/{jumlah}/{id}', [ManufacturingOrderController::class, 'getBomDetail'])->name('get-bom');
 
+Route::get('/get-vendor/{id}', [VendorController::class, 'getVendor'])->name('get-vendor');
+
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'auth'], function () {
 
     Route::get('/', [DashboardController::class, 'index']);
@@ -91,7 +93,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'aut
     Route::get('/purchase-order/{purchase}/create-bill', [PurchaseController::class, 'purchaseOrderCreateBill'])->name('purchase-order.bill.create');
     Route::post('/purchase-order/{purchase}/store-bill', [PurchaseController::class, 'purchaseOrderStoreBill'])->name('purchase-order.bill.store');
     Route::get('/purchase-order/{purchase}/post-bill', [PurchaseController::class, 'purchaseOrderPostBill'])->name('purchase-order.bill.post');
-
+    Route::post('/purchase-order/{purchase}/store-payment', [PurchaseController::class, 'purchaseOrderStorePayment'])->name('purchase-order.payment.store');
 });
 
 

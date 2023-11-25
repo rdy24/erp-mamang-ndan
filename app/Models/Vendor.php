@@ -15,15 +15,14 @@ class Vendor extends Model
 
     public static function setKodeVendor()
     {
-        $lastVendor = Vendor::latest()->first();
-        if (!$lastVendor) {
-            return 'VN-0001';
+        $lastVendor = Vendor::orderBy('id', 'desc')->first();
+        if (! $lastVendor) {
+            return 'V0001';
         }
-        $lastKodeVendor = $lastVendor->kode_vendor;
-        $lastKodeVendor = substr($lastKodeVendor, 3);
-        $lastKodeVendor = (int) $lastKodeVendor;
-        $lastKodeVendor++;
-        $lastKodeVendor = 'VN-' . sprintf("%04d", $lastKodeVendor);
-        return $lastKodeVendor;
+
+        $lastVendorNumber = substr($lastVendor->kode_vendor, 1);
+        $newVendorNumber = $lastVendorNumber + 1;
+
+        return 'V' . sprintf('%04s', $newVendorNumber);
     }
 }

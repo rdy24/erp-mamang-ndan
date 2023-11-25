@@ -27,16 +27,6 @@ Tambah BOM | {{ config('app.name') }}
                     <form action="{{ route('dashboard.bom.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="kode_bom">Kode BOM</label>
-                            <input type="text" class="form-control" id="kode_bom" name="kode_bom" required
-                                value="{{ old('kode_bom') }}">
-                            @error('kode_bom')
-                            <p class="text-danger">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                        </div>
-                        <div class="form-group">
                             <label for="id_produk">Produk</label>
                             <select name="id_produk" required class="form-control select2">
                                 @foreach($products as $product)

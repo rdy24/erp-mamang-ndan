@@ -22,4 +22,17 @@ class Bom extends Model
     {
         return $this->hasMany(BomDetail::class, 'id_bom');
     }
+
+    public static function setKodeBom()
+    {
+        $lastBom = Bom::orderBy('id', 'desc')->first();
+        if (! $lastBom) {
+            return 'BOM0001';
+        }
+
+        $lastBomNumber = substr($lastBom->kode_bom, 3);
+        $newBomNumber = $lastBomNumber + 1;
+
+        return 'BOM' . sprintf('%04s', $newBomNumber);
+    }
 }

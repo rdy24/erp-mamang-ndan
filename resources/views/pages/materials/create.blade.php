@@ -21,16 +21,6 @@ Tambah Bahan Baku | {{ config('app.name') }}
                     <form action="{{ route('dashboard.materials.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="kode_bahan">Kode Bahan Baku</label>
-                            <input type="text" class="form-control" id="kode_bahan" name="kode_bahan" required
-                                value="{{ old('kode_bahan') }}">
-                            @error('kode_bahan')
-                            <p class="text-danger">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                        </div>
-                        <div class="form-group">
                             <label for="nama_bahan">Nama Bahan Baku</label>
                             <input type="text" class="form-control" id="nama_bahan" name="nama_bahan" required
                                 value="{{ old('nama_bahan') }}">
@@ -49,6 +39,13 @@ Tambah Bahan Baku | {{ config('app.name') }}
                                 {{ $message }}
                             </p>
                             @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="satuan">Satuan</label>
+                            <select name="satuan" id="satuan" class="form-control">
+                                <option value="kg" {{ old('satuan')=='kg' ? 'selected' : '' }}>kg</option>
+                                <option value="liter" {{ old('satuan')=='liter' ? 'selected' : '' }}>liter</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="gambar" class="form-label">Foto Bahan</label>

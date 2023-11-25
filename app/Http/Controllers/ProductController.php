@@ -52,7 +52,7 @@ class ProductController extends Controller
 
         // insert data ke database
         Product::create([
-            'kode_produk' => $request->kode_produk,
+            'kode_produk' => Product::setKodeProduct(),
             'nama_produk' => $request->nama_produk,
             'harga' => $request->harga,
             'jumlah' => 0,
@@ -86,7 +86,6 @@ class ProductController extends Controller
         }
 
         $product->update([
-            'kode_produk' => $request->kode_produk,
             'nama_produk' => $request->nama_produk,
             'harga' => $request->harga,
             'deskripsi' => $request->deskripsi,

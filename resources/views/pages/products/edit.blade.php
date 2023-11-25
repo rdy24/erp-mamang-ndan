@@ -23,16 +23,6 @@ Edit Produk | {{ config('app.name') }}
                         @method('PUT')
                         @csrf
                         <div class="form-group">
-                            <label for="kode_produk">Kode Produk</label>
-                            <input type="text" class="form-control" id="kode_produk" name="kode_produk" required
-                                value="{{ old('kode_produk', $product->kode_produk) }}">
-                            @error('kode_produk')
-                            <p class="text-danger">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                        </div>
-                        <div class="form-group">
                             <label for="nama_produk">Nama Produk</label>
                             <input type="text" class="form-control" id="nama_produk" name="nama_produk" required
                                 value="{{ old('nama_produk', $product->nama_produk) }}">

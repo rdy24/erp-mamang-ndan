@@ -22,8 +22,8 @@ class MaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kode_bahan' => 'required|string|max:255',
             'nama_bahan' => 'required|string|max:255',
+            'satuan' => 'required|string|max:255',
             'harga' => 'required|integer',
             'gambar' => 'image|mimes:jpeg,png,jpg|max:2048',
         ];
@@ -36,7 +36,6 @@ class MaterialRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'kode_bahan.required' => 'Kode Bahan harus diisi',
             'nama_bahan.required' => 'Nama Bahan harus diisi',
             'harga.required' => 'Harga harus diisi',
             'deskripsi.required' => 'Deskripsi harus diisi',

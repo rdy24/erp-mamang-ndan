@@ -22,7 +22,6 @@ class BomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kode_bom' => 'required',
             'id_produk' => 'required',
             'id_bahan' => 'required',
             'jumlah' => 'required',
@@ -36,7 +35,6 @@ class BomRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'kode_bom.required' => 'Kode bom harus diisi',
             'id_produk.required' => 'Produk harus diisi',
             'id_bahan.required' => 'Bahan harus diisi',
             'jumlah.required' => 'Jumlah harus diisi',

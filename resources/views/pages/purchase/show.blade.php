@@ -43,21 +43,21 @@ Purchase | {{ config('app.name') }}
                 <i class="fas fa-check-square"></i> Create Bill
             </a>
             @endif
-            @if ($purchase->status == 'Purchase Order' && $purchase->bill_status == 'Waiting Bills' && $bill->status ==
+            @if ($purchase->status == 'Purchase Order' && $purchase->bill_status == 'Waiting Bills' && $bill?->status ==
             'Draft')
             <a href="{{ route('dashboard.purchase-order.bill.post', $purchase->id) }}" class="btn btn-success">
                 <i class="fas fa-check-square"></i> Post
             </a>
             @endif
-            @if ($purchase->status == 'Purchase Order' && $purchase->bill_status == 'Waiting Bills' && $bill->status ==
+            @if ($purchase->status == 'Purchase Order' && $purchase->bill_status == 'Waiting Bills' && $bill?->status ==
             'Posted')
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" id="modalButton">
-                Launch demo modal
+            <button type="button" class="btn btn-info" id="modalButton">
+                Register Payment
             </button>
             @endif
         </div>
         <div>
+            @if ($purchase->status == 'RFQ')
             <a href="{{ route('dashboard.manufacturing-orders.edit', $purchase->id) }}" class="btn btn-warning">
                 <i class="fas fa-pen"></i> Edit
             </a>
@@ -65,6 +65,7 @@ Purchase | {{ config('app.name') }}
                 data-confirm-delete="true">
                 <i class="fas fa-trash"></i> Hapus
             </a>
+            @endif
         </div>
     </div>
 
@@ -201,21 +202,22 @@ Purchase | {{ config('app.name') }}
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Register Payment</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form action="{{ route('dashboard.purchase-order.payment.store', $purchase->id) }}" method="POST">
+                    @csrf
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label for="type">Tipe</label>
                                     <select name="type" id="type" class="form-control">
-                                        <option value="cash">Cash</option>
-                                        <option value="transfer">Transfer</option>
+                                        <option value="Cash">Cash</option>
+                                        <option value="Transfer">Transfer</option>
                                     </select>
                                 </div>
                                 <div id="transfer-bank" style="display: none">
@@ -240,14 +242,15 @@ Purchase | {{ config('app.name') }}
                                     <input type="text" name="amount" id="amount" class="form-control">
                                 </div>
                                 <div class="mb-2">
-                                    <label for="date">Tanggal</label>
-                                    <input type="text" name="date" id="date" class="form-control datepicker">
+                                    <label for="payment_date">Tanggal</label>
+                                    <input type="text" name="payment_date" id="payment_date"
+                                        class="form-control datepicker">
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <button type="submit" class="btn btn-primary">Validate</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </form>
             </div>
         </div>
@@ -271,7 +274,7 @@ Purchase | {{ config('app.name') }}
 
     // if change type to transfer
     $('#type').on('change', function () {
-        if ($(this).val() == 'transfer') {
+        if ($(this).val() == 'Transfer') {
             $('#transfer-bank').show();
         } else {
             $('#transfer-bank').hide();

@@ -16,7 +16,7 @@ class BomSeeder extends Seeder
     {
         $data = [
             [
-                'kode_bom' => 'BOM001',
+                'kode_bom' => 'BOM0001',
                 'id_produk' => 1,
                 'detail' => [
                     [
@@ -62,7 +62,7 @@ class BomSeeder extends Seeder
                 ],
             ],
             [
-                'kode_bom' => 'BOM002',
+                'kode_bom' => 'BOM0002',
                 'id_produk' => 2,
                 'detail' => [
                     [
@@ -108,7 +108,7 @@ class BomSeeder extends Seeder
                 ],
             ],
             [
-                'kode_bom' => 'BOM003',
+                'kode_bom' => 'BOM0003',
                 'id_produk' => 3,
                 'detail' => [
                     [

@@ -23,16 +23,6 @@ Edit Bahan Baku | {{ config('app.name') }}
                         @method('PUT')
                         @csrf
                         <div class="form-group">
-                            <label for="kode_bahan">Kode Bahan Baku</label>
-                            <input type="text" class="form-control" id="kode_bahan" name="kode_bahan" required
-                                value="{{ old('kode_bahan', $material->kode_bahan) }}">
-                            @error('kode_bahan')
-                            <p class="text-danger">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                        </div>
-                        <div class="form-group">
                             <label for="nama_bahan">Nama Bahan Baku</label>
                             <input type="text" class="form-control" id="nama_bahan" name="nama_bahan" required
                                 value="{{ old('nama_bahan', $material->nama_bahan) }}">
@@ -51,6 +41,15 @@ Edit Bahan Baku | {{ config('app.name') }}
                                 {{ $message }}
                             </p>
                             @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="satuan">Satuan</label>
+                            <select name="satuan" id="satuan" class="form-control">
+                                <option value="kg" {{ old('satuan', $material->satuan)=='kg' ? 'selected' : '' }}>kg
+                                </option>
+                                <option value="liter" {{ old('satuan', $material->satuan)=='liter' ? 'selected' : ''
+                                    }}>liter</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="gambar" class="form-label">Foto Bahan</label>

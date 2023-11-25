@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('kode_vendor')->nullable();
             $table->string('name')->nullable();
+            $table->string('company_name')->nullable();
             $table->string('address')->nullable();
             $table->string("phone")->nullable();
             $table->string("email")->nullable();
-            $table->enum('type', ['individual', 'company'])->default('individual');
+            $table->string('position')->nullable();
+            $table->enum('type', ['individual', 'company'])->default('company');
             $table->string('foto')->nullable();
             $table->timestamps();
         });

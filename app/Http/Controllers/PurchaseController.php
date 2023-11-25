@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bill;
 use App\Models\Material;
+use App\Models\Payment;
 use App\Models\Purchase;
 use App\Models\PurchaseDetail;
 use App\Models\Vendor;
@@ -172,5 +173,36 @@ class PurchaseController extends Controller
         ]);
 
         return redirect()->route('dashboard.purchase-order.show', $purchase->id)->with('success', 'Bill berhasil diposting');
+    }
+
+    public function purchaseOrderStorePayment(Request $request, Purchase $purchase)
+    {
+        $data = $request->validate([
+            'type' => 'required',
+            'amount' => 'required',
+            'payment_date' => 'required',
+        ]);
+
+        $bill = Bill::where('purchase_id', $purchase->id)->first();
+
+        DB::transaction(function () use ($data, $bill, $request, $purchase) {
+            $purchase->update([
+                'bill_status' => 'Fully Billed',
+            ]);
+
+            Payment::create([
+                'kode_payment' => Payment::setKodePayment(),
+                'bill_id' => $bill->id,
+                'payment_method' => $data['type'],
+                'bank_name' => $request->bank_name,
+                'account_number' => $request->account_number,
+                'account_name' => $request->account_name,
+                'amount' => $data['amount'],
+                'payment_date' => $data['payment_date'],
+                'status' => 'Paid',
+            ]);
+        });
+
+        return redirect()->route('dashboard.purchase-order.show', $purchase->id)->with('success', 'Bill berhasil dibayar');
     }
 }

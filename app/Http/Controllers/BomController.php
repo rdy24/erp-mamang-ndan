@@ -40,7 +40,7 @@ class BomController extends Controller
 
         DB::transaction(function () use ($data) {
             $bom = Bom::create([
-                'kode_bom' => $data['kode_bom'],
+                'kode_bom' => Bom::setKodeBom(),
                 'id_produk' => $data['id_produk'],
             ]);
 
@@ -87,7 +87,6 @@ class BomController extends Controller
 
         DB::transaction(function () use ($data, $bom) {
             $bom->update([
-                'kode_bom' => $data['kode_bom'],
                 'id_produk' => $data['id_produk'],
             ]);
 

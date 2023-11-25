@@ -37,8 +37,9 @@ class MaterialController extends Controller
 
         // insert data ke database
         Material::create([
-            'kode_bahan' => $request->kode_bahan,
+            'kode_bahan' => Material::setKodeMaterial(),
             'nama_bahan' => $request->nama_bahan,
+            'satuan' => $request->satuan,
             'harga' => $request->harga,
             'jumlah' => 0,
             'deskripsi' => $request->deskripsi,
@@ -72,8 +73,8 @@ class MaterialController extends Controller
 
         // update data ke database
         $material->update([
-            'kode_bahan' => $request->kode_bahan,
             'nama_bahan' => $request->nama_bahan,
+            'satuan' => $request->satuan,
             'harga' => $request->harga,
             'jumlah' => 0,
             'deskripsi' => $request->deskripsi,

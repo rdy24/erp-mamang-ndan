@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('title')
-Tambah Produk | {{ config('app.name') }}
+Tambah Vendor | {{ config('app.name') }}
 @endsection
 
 @section('content')
 <div class="section-header">
-    <h1>Tambah Produk</h1>
+    <h1>Tambah Vendor</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item"><a href="#">Dashboard</a></div>
-        <div class="breadcrumb-item active">Tambah Produk</div>
+        <div class="breadcrumb-item active">Tambah Vendor</div>
     </div>
 </div>
 
@@ -21,6 +21,25 @@ Tambah Produk | {{ config('app.name') }}
                     <form action="{{ route('dashboard.vendors.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
+                            <label for="type">Tipe</label>
+                            <div class="d-flex">
+                                <div class="form-check mr-2">
+                                    <input class="form-check-input" type="radio" name="type" id="type1" value="company"
+                                        {{ old('type', 'company' )=='company' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="type1">
+                                        Company
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="type" id="type"
+                                        value="individual" {{ old('type')=='individual' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="type">
+                                        Individual
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="name">Nama</label>
                             <input type="text" class="form-control" id="name" name="name" required
                                 value="{{ old('name') }}">
@@ -30,8 +49,34 @@ Tambah Produk | {{ config('app.name') }}
                             </p>
                             @enderror
                         </div>
+                        <div id="individual-vendor" style="display: none">
+                            <div class="form-group">
+                                <label for="company_name">Company</label>
+                                <select name="company_name" class="form-control" id="company_name">
+                                    <option value="">Pilih Vendor</option>
+                                    @foreach($vendors as $vendor)
+                                    <option value="{{ $vendor->name }}" {{ old('company_name')==$vendor->id ?
+                                        'selected' :
+                                        ''
+                                        }} data-id={{ $vendor->id }}>
+                                        {{ $vendor->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="position">Jabatan</label>
+                                <input type="text" class="form-control" id="position" name="position"
+                                    value="{{ old('position') }}">
+                                @error('position')
+                                <p class="text-danger">
+                                    {{ $message }}
+                                </p>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="form-group">
-                            <label for="email">email</label>
+                            <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" required
                                 value="{{ old('email') }}">
                             @error('email')
@@ -41,7 +86,7 @@ Tambah Produk | {{ config('app.name') }}
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="text">phone</label>
+                            <label for="text">Phone</label>
                             <input type="phone" class="form-control" id="phone" name="phone" required
                                 value="{{ old('phone') }}">
                             @error('phone')
@@ -51,21 +96,14 @@ Tambah Produk | {{ config('app.name') }}
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="type">Tipe</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type" id="type" value="individual" {{
-                                    old('type')=='individual' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="type">
-                                    Individual
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type" id="type1" value="company" {{
-                                    old('type')=='company' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="type1">
-                                    Company
-                                </label>
-                            </div>
+                            <label for="text">Alamat</label>
+                            <input type="address" class="form-control" id="address" name="address" required
+                                value="{{ old('address') }}">
+                            @error('address')
+                            <p class="text-danger">
+                                {{ $message }}
+                            </p>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="gambar" class="form-label">Foto</label>
@@ -89,13 +127,40 @@ Tambah Produk | {{ config('app.name') }}
 @endsection
 
 @push('js-page')
-<script src={{ asset("assets/js/page/forms-advanced-forms.js") }}></script>
 <script>
     function previewImage() {
-      const gambar = document.querySelector('#gambar');
-      const imgPreview = document.querySelector('.img-preview');
-      const blob = URL.createObjectURL(gambar.files[0]);
-      imgPreview.src = blob;
+        const gambar = document.querySelector('#gambar');
+        const imgPreview = document.querySelector('.img-preview');
+        const blob = URL.createObjectURL(gambar.files[0]);
+        imgPreview.src = blob;
     }
+
+    $('input[type=radio][name=type]').change(function() {
+        if (this.value == 'individual') {
+            $('#individual-vendor').show();
+        } else {
+            $('#individual-vendor').hide();
+        }
+    });
+
+    // if company_name change fetch to getvendor
+    $('#company_name').change(function() {
+        const company_name = $(this).val();
+        const id = $(this).find(':selected').data('id');
+
+        $.ajax({
+            url: `/get-vendor/${id}`,
+            type: "GET",
+            data: {
+                id: id
+            },
+            success: function(data) {
+                $('#email').val(data.email);
+                $('#phone').val(data.phone);
+                $('#address').val(data.address);
+            }
+        });
+        
+    });
 </script>
 @endpush

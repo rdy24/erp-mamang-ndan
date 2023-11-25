@@ -29,16 +29,6 @@ Edit BOM | {{ config('app.name') }}
                         @method('PUT')
                         @csrf
                         <div class="form-group">
-                            <label for="kode_bom">Kode BOM</label>
-                            <input type="text" class="form-control" id="kode_bom" name="kode_bom" required
-                                value="{{ old('kode_bom', $bom->kode_bom) }}">
-                            @error('kode_bom')
-                            <p class="text-danger">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                        </div>
-                        <div class="form-group">
                             <label for="id_produk">Produk</label>
                             <select name="id_produk" required class="form-control select2">
                                 @foreach($products as $product)

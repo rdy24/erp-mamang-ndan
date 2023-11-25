@@ -11,4 +11,17 @@ class Material extends Model
 
     protected $table ='materials';
     protected $guarded = ['id'];
+
+    public static function setKodeMaterial()
+    {
+        $lastMaterial = Material::orderBy('id', 'desc')->first();
+        if (! $lastMaterial) {
+            return 'B0001';
+        }
+
+        $lastMaterialNumber = substr($lastMaterial->kode_bahan, 1);
+        $newMaterialNumber = $lastMaterialNumber + 1;
+
+        return 'B' . sprintf('%04s', $newMaterialNumber);
+    }
 }
