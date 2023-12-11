@@ -27,13 +27,13 @@ class ManufacturingOrder extends Model
     {
         $lastOrder = ManufacturingOrder::latest()->first();
         if (!$lastOrder) {
-            return 'MO-0001';
+            return 'MO0001';
         }
         $lastKodeOrder = $lastOrder->kode_order;
         $lastKodeOrder = substr($lastKodeOrder, 3);
         $lastKodeOrder = (int) $lastKodeOrder;
         $lastKodeOrder++;
-        $lastKodeOrder = 'MO-' . sprintf("%04d", $lastKodeOrder);
+        $lastKodeOrder = 'MO' . sprintf("%04d", $lastKodeOrder);
         return $lastKodeOrder;
     }
 

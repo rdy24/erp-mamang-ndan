@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BomController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManufacturingOrderController;
@@ -8,6 +9,8 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RequestForQuotationController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\QuotationTemplateController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +36,8 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/get-bom/{jumlah}/{id}', [ManufacturingOrderController::class, 'getBomDetail'])->name('get-bom');
 
 Route::get('/get-vendor/{id}', [VendorController::class, 'getVendor'])->name('get-vendor');
+Route::get('/get-customer/{id}', [CustomerController::class, 'getCustomer'])->name('get-customer');
+Route::get('/get-template/{id}', [QuotationTemplateController::class, 'getTemplate'])->name('get-template');
 
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'auth'], function () {
 
@@ -94,6 +99,36 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'aut
     Route::post('/purchase-order/{purchase}/store-bill', [PurchaseController::class, 'purchaseOrderStoreBill'])->name('purchase-order.bill.store');
     Route::get('/purchase-order/{purchase}/post-bill', [PurchaseController::class, 'purchaseOrderPostBill'])->name('purchase-order.bill.post');
     Route::post('/purchase-order/{purchase}/store-payment', [PurchaseController::class, 'purchaseOrderStorePayment'])->name('purchase-order.payment.store');
+
+    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+    Route::post('/customers/store', [CustomerController::class, 'store'])->name('customers.store');
+    Route::get('/customers/{customer}', [CustomerController::class, 'show'])->name('customers.show');
+    Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/customers/{customer}/update', [CustomerController::class, 'update'])->name('customers.update');
+    Route::delete('/customers/{customer}/delete', [CustomerController::class, 'destroy'])->name('customers.destroy');
+
+    Route::get('/quotation-template', [QuotationTemplateController::class, 'index'])->name('quotation-template.index');
+    Route::get('/quotation-template/create', [QuotationTemplateController::class, 'create'])->name('quotation-template.create');
+    Route::post('/quotation-template/store', [QuotationTemplateController::class, 'store'])->name('quotation-template.store');
+    Route::get('/quotation-template/{template}', [QuotationTemplateController::class, 'show'])->name('quotation-template.show');
+    Route::get('/quotation-template/{template}/edit', [QuotationTemplateController::class, 'edit'])->name('quotation-template.edit');
+    Route::put('/quotation-template/{template}/update', [QuotationTemplateController::class, 'update'])->name('quotation-template.update');
+    Route::delete('/quotation-template/{template}/delete', [QuotationTemplateController::class, 'destroy'])->name('quotation-template.destroy');
+
+    Route::get('/quotation', [SaleController::class, 'index'])->name('sale.index');
+    Route::get('/quotation/create', [SaleController::class, 'quotationCreate'])->name('sale.quotation.create');
+    Route::post('/quotation/store', [SaleController::class, 'quotationStore'])->name('sale.quotation.store');
+    Route::get('/quotation/{sale}', [SaleController::class, 'quotationShow'])->name('sale.quotation.show');
+    Route::get('/quotation/{sale}/edit', [SaleController::class, 'quotationEdit'])->name('sale.quotation.edit');
+    Route::put('/quotation/{sale}/update', [SaleController::class, 'quotationUpdate'])->name('sale.quotation.update');
+    Route::delete('/quotation/{sale}/delete', [SaleController::class, 'destroy'])->name('sale.quotation.destroy');
+    Route::get('/quotation/{sale}/confirm', [SaleController::class, 'quotationConfirm'])->name('sale.quotation.confirm');
+    Route::get('/quotation/{sale}/invoice', [SaleController::class, 'createInvoice'])->name('sale.quotation.create.invoice');
+
+    Route::get('/send-quotation/{sale}', [SaleController::class, 'sendQuotation'])->name('sale.send-quotation');
+
+    Route::get('/tes-quotation/{sale}',[SaleController::class, 'print'])->name('sale.tes-quotation');
 });
 
 

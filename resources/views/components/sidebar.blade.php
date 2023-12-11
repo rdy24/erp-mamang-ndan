@@ -42,6 +42,17 @@
                     href="{{ route('dashboard.purchase-order.index') }}" class="nav-link"><i
                         class="fas fa-archive"></i><span>Purchase Order</span></a>
             </li>
+            <li class="menu-header">Sales</li>
+            <li class="{{ request()->routeIs('dashboard.customers.*') ? 'active' : '' }}"><a
+                    href="{{ route('dashboard.customers.index') }}" class="nav-link"><i
+                        class="fas fa-archive"></i><span>Customers</span></a>
+            </li>
+            <li class="{{ request()->routeIs('dashboard.quotation-template.*') ? 'active' : '' }}"><a href="{{ route('dashboard.quotation-template.index') }}" class="nav-link"><i
+                        class="fas fa-archive"></i><span>Quotation Template</span></a>
+            <li class="{{ request()->routeIs('dashboard.sale.*') ? 'active' : '' }}"><a
+                    href="{{ route('dashboard.sale.index') }}" class="nav-link"><i
+                        class="fas fa-archive"></i><span>Quotation</span></a>
+            </li>
         </ul>
     </aside>
 </div>
