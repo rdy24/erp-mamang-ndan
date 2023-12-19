@@ -22,7 +22,7 @@ class ProductSeeder extends Seeder
                 'kode_produk' => 'PR0001',
                 'nama_produk' => 'Seblak Makaroni',
                 'harga' => 22500,
-                'jumlah' => 0,
+                'jumlah' => 50,
                 'deskripsi' => 'Seblak dengan topping makaroni',
             ],
             [
@@ -30,7 +30,7 @@ class ProductSeeder extends Seeder
                 'kode_produk' => 'PR0002',
                 'nama_produk' => 'Seblak Ceker Ayam',
                 'harga' => 17500,
-                'jumlah' => 0,
+                'jumlah' => 50,
                 'deskripsi' => 'Seblak dengan ceker ayam',
             ],
             [
@@ -38,7 +38,7 @@ class ProductSeeder extends Seeder
                 'kode_produk' => 'PR0003',
                 'nama_produk' => 'Seblak Bakso',
                 'harga' => 21500,
-                'jumlah' => 0,
+                'jumlah' => 50,
                 'deskripsi' => 'Seblak dengan bakso',
             ],
         ];

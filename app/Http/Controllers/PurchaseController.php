@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Accounting;
 use App\Models\Bill;
 use App\Models\Material;
 use App\Models\Payment;
@@ -190,7 +191,7 @@ class PurchaseController extends Controller
                 'bill_status' => 'Fully Billed',
             ]);
 
-            Payment::create([
+            $payment = Payment::create([
                 'kode_payment' => Payment::setKodePayment(),
                 'bill_id' => $bill->id,
                 'payment_method' => $data['type'],
@@ -200,6 +201,14 @@ class PurchaseController extends Controller
                 'amount' => $data['amount'],
                 'payment_date' => $data['payment_date'],
                 'status' => 'Paid',
+            ]);
+
+            Accounting::create([
+                'payment_id' => $payment->id,
+                'customer' => $purchase->vendor->nama_vendor,
+                'jumlah' => $data['amount'],
+                'status' => 'Kredit',
+                'tanggal' => $data['payment_date'],
             ]);
         });
 

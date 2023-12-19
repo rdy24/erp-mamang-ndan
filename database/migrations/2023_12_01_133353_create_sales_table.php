@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('kode_sales')->nullable();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
-            $table->enum('status', ['Quotation', 'Sales Order'])->default('Quotation');
+            $table->enum('status', ['Quotation', 'Sales Order', 'Invoice'])->default('Quotation');
+            $table->enum('invoice_status', ['Draft', 'Posted'])->nullable();
+            $table->enum('delivery_status', ['Draft', 'Delivered'])->nullable();
             $table->date('expired')->nullable();
             $table->timestamps();
         });

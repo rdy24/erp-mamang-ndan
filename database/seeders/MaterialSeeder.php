@@ -22,7 +22,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Makaroni',
                 'harga' => 5000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 100,
             ],
             [
                 'id' => 2,
@@ -30,7 +30,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Ceker Ayam',
                 'harga' => 10000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 50,
             ],
             [
                 'id' => 3,
@@ -38,7 +38,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Bakso Sapi',
                 'harga' => 15000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 50,
             ],
             [
                 'id' => 4,
@@ -46,7 +46,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Bawang Merah',
                 'harga' => 20000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 30,
             ],
             [
                 'id' => 5,
@@ -54,7 +54,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Bawang Putih',
                 'harga' => 20000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 30,
             ],
             [
                 'id' => 6,
@@ -62,7 +62,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Cabai Bubuk',
                 'harga' => 20000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 20,
             ],
             [
                 'id' => 7,
@@ -70,7 +70,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Garam',
                 'harga' => 20000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 20,
             ],
             [
                 'id' => 8,
@@ -78,7 +78,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Gula',
                 'harga' => 20000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 10,
             ],
             [
                 'id' => 9,
@@ -86,7 +86,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Kecap Manis',
                 'harga' => 20000,
                 'satuan' => 'liter',
-                'jumlah' => 0,
+                'jumlah' => 20,
             ],
             [
                 'id' => 10,
@@ -94,7 +94,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Telur Ayam',
                 'harga' => 20000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 20,
             ],
             [
                 'id' => 11,
@@ -102,7 +102,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Mie',
                 'harga' => 20000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 30,
             ],
             [
                 'id' => 12,
@@ -110,7 +110,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Daun Bawang',
                 'harga' => 20000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 20,
             ],
             [
                 'id' => 13,
@@ -118,7 +118,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Air',
                 'harga' => 20000,
                 'satuan' => 'liter',
-                'jumlah' => 0,
+                'jumlah' => 30,
             ],
             [
                 'id' => 14,
@@ -126,7 +126,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Kerupuk Bawang',
                 'harga' => 20000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 10,
             ],
             [
                 'id' => 15,
@@ -134,7 +134,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Lada Bubuk',
                 'harga' => 20000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 30,
             ],
             [
                 'id' => 16,
@@ -142,7 +142,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Sosis',
                 'harga' => 20000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 10,
             ],
             [
                 'id' => 17,
@@ -150,7 +150,7 @@ class MaterialSeeder extends Seeder
                 'nama_bahan' => 'Tomat',
                 'harga' => 20000,
                 'satuan' => 'kg',
-                'jumlah' => 0,
+                'jumlah' => 20,
             ]
 
         ];

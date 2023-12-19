@@ -41,6 +41,11 @@ class Sale extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+
     public function getTotalAttribute()
     {
         return $this->sale_details->sum(function ($detail) {

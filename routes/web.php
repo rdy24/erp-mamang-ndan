@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\BomController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoginController;
@@ -125,10 +126,17 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'aut
     Route::delete('/quotation/{sale}/delete', [SaleController::class, 'destroy'])->name('sale.quotation.destroy');
     Route::get('/quotation/{sale}/confirm', [SaleController::class, 'quotationConfirm'])->name('sale.quotation.confirm');
     Route::get('/quotation/{sale}/invoice', [SaleController::class, 'createInvoice'])->name('sale.quotation.create.invoice');
+    Route::get('/quotation/{sale}/confirm-invoice', [SaleController::class, 'confirmInvoice'])->name('sale.invoice.confirm');
+    Route::post('/quotation/{sale}/store-payment', [SaleController::class, 'saleStorePayment'])->name('sale.invoice.payment');
+    Route::get('/quotation/{sale}/deliver-product', [SaleController::class, 'deliverProduct'])->name('sale.deliver-product');
 
     Route::get('/send-quotation/{sale}', [SaleController::class, 'sendQuotation'])->name('sale.send-quotation');
+    Route::get('/send-invoice/{sale}', [SaleController::class, 'sendInvoice'])->name('sale.send-invoice');
 
     Route::get('/tes-quotation/{sale}',[SaleController::class, 'print'])->name('sale.tes-quotation');
+    Route::get('/print-invoice/{sale}',[SaleController::class, 'printInvoice'])->name('sale.print-invoice');
+
+    Route::get('/accounting', [AccountingController::class, 'index'])->name('accounting.index');
 });
 
 

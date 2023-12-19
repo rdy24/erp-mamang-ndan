@@ -33,6 +33,29 @@ Sale | {{ config('app.name') }}
                 <i class="fas fa-check"></i> Create Invoice
             </a>
             @endif
+            @if ($sale->status == 'Invoice' && $sale->invoice_status == 'Draft')
+            <a href="{{ route('dashboard.sale.invoice.confirm', $sale->id) }}" class="btn btn-info">
+                <i class="fas fa-check"></i> Confirm Invoice
+            </a>
+            @endif
+            @if ($sale->status == 'Invoice' && $sale->invoice_status == 'Posted')
+            <a href="{{ route('dashboard.sale.send-invoice', $sale->id) }}" class="btn btn-dark"> Send Invoice By
+                Email
+            </a>
+            <a href="{{ route('dashboard.sale.print-invoice', $sale->id) }}" class="btn btn-info">
+                Print Invoice
+            </a>
+            @endif
+            @if ($sale->status == 'Invoice' && $sale->invoice_status == 'Posted' && !$sale->payment)
+            <button type="button" class="btn btn-info" id="modalButton">
+                Register Payment
+            </button>
+            @endif
+            @if ($sale?->payment?->status == 'Paid' && !$sale->delivery_status)
+            <a href="{{ route('dashboard.sale.deliver-product', $sale->id) }}" class="btn btn-success">
+                Deliver Product
+            </a>
+            @endif
         </div>
         <div>
             @if ($sale->status == 'Quotation')
@@ -62,6 +85,27 @@ Sale | {{ config('app.name') }}
                             <td width="10px">:</td>
                             <td>{{ $sale->status }}</td>
                         </tr>
+                        @if ($sale->invoice_status)
+                        <tr style="white-space: nowrap">
+                            <td width="30px">Invoice Status</td>
+                            <td width="10px">:</td>
+                            <td>{{ $sale->invoice_status }}</td>
+                        </tr>
+                        @endif
+                        @if ($sale?->payment?->status)
+                        <tr style="white-space: nowrap">
+                            <td width="30px">Payment Status</td>
+                            <td width="10px">:</td>
+                            <td><span class="badge badge-success">{{ $sale->payment->status }}</span></td>
+                        </tr>
+                        @endif
+                        @if ($sale->delivery_status)
+                        <tr style="white-space: nowrap">
+                            <td width="30px">Delivery Status</td>
+                            <td width="10px">:</td>
+                            <td>{{ $sale->delivery_status }}</td>
+                        </tr>
+                        @endif
                         <tr style="white-space: nowrap">
                             <td width="30px">Order Date</td>
                             <td width="10px">:</td>
@@ -95,6 +139,65 @@ Sale | {{ config('app.name') }}
         </div>
     </div>
 </section>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Register Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('dashboard.sale.invoice.payment', $sale->id) }}" method="POST">
+                    @csrf
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label for="type">Tipe</label>
+                                    <select name="type" id="type" class="form-control">
+                                        <option value="Cash">Cash</option>
+                                        <option value="Transfer">Transfer</option>
+                                    </select>
+                                </div>
+                                <div id="transfer-bank" style="display: none">
+                                    <div class="mb-2">
+                                        <label for="bank">Bank</label>
+                                        <input type="text" name="bank" id="bank" class="form-control">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="account_number">Nomor Rekening</label>
+                                        <input type="text" name="account_number" id="account_number"
+                                            class="form-control">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="account_name">Nama Rekening</label>
+                                        <input type="text" name="account_name" id="account_name" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label for="amount">Jumlah</label>
+                                    <input type="text" name="amount" id="amount" class="form-control">
+                                </div>
+                                <div class="mb-2">
+                                    <label for="payment_date">Tanggal</label>
+                                    <input type="text" name="payment_date" id="payment_date"
+                                        class="form-control datepicker">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Validate</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('js-libraries')
