@@ -202,10 +202,10 @@ class PurchaseController extends Controller
                 'payment_date' => $data['payment_date'],
                 'status' => 'Paid',
             ]);
-
+            
             Accounting::create([
                 'payment_id' => $payment->id,
-                'customer' => $purchase->vendor->nama_vendor,
+                'customer' => $purchase->vendor->name,
                 'jumlah' => $data['amount'],
                 'status' => 'Kredit',
                 'tanggal' => $data['payment_date'],

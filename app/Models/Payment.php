@@ -18,6 +18,11 @@ class Payment extends Model
         return $this->belongsTo(Bill::class);
     }
 
+    public function sale()
+    {
+        return $this->belongsTo(Sale::class);
+    }
+
     public static function setKodePayment()
     {
         $lastPayment = Payment::orderBy('id', 'desc')->first();

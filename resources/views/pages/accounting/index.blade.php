@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-{{ $title }} | {{ config('app.name') }}
+Accounting | {{ config('app.name') }}
 @endsection
 
 @push('css-libraries')
@@ -11,10 +11,10 @@
 
 @section('content')
 <div class="section-header">
-    <h1>{{ $title }}</h1>
+    <h1>Accounting</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item active"><a href="{{ route('dashboard.') }}">Dashboard</a></div>
-        <div class="breadcrumb-item">{{ $title }}</div>
+        <div class="breadcrumb-item">Accounting</div>
     </div>
 </div>
 
@@ -22,6 +22,20 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <form action="">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <select name="status" id="status" class="form-control">
+                                <option value="">-- Pilih Status --</option>
+                                <option value="Debit">Debit</option>
+                                <option value="Kredit">Kredit</option>
+                            </select>
+                            <div class="input-group-btn mx-4">
+                                <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped" id="table-1">
@@ -31,11 +45,10 @@
                                     <th>Tanggal</th>
                                     <th>Kode Pembayaran</th>
                                     <th>Kode Purchase / Sale</th>
-                                    <th>Barang</th>
                                     <th>Status</th>
-                                    <th>Total Harga</th>
-                                    <th>Action</th>
+                                    <th>Jumlah</th>
                                 </tr>
+
                             </thead>
                             <tbody>
                                 @foreach ($accountings as $item)
@@ -43,13 +56,17 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->tanggal }}</td>
                                     <td>{{ $item->payment->kode_payment }}</td>
-                                    <td>Rp. {{ number_format($item->total_harga) }}</td>
-                                    <td>{{ $isPurchaseOrder ? $item->bill_status : $item->status }}</td>
+                                    @if (request()->status == 'Debit')
+                                    <td>{{ $item->payment->sale->kode_sales }}</td>
+                                    @elseif (request()->status == 'Kredit')
+                                    <td>{{ $item->payment->bill->purchase->kode_purchase }}</td>
+                                    @else
                                     <td>
-                                        <a href="{{ route($isPurchaseOrder ? 'dashboard.purchase-order.show' : 'dashboard.purchase.rfq.show', $item->id) }}"
-                                            class="btn btn-primary btn-sm"><i class="fas fa-eye"></i>
-                                        </a>
+                                        {{ $item->payment->bill->purchase->kode_purchase ?? $item->payment->sale->kode_sales }}
                                     </td>
+                                    @endif
+                                    <td>{{ $item->status }}</td>
+                                    <td>{{ $item->jumlah }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

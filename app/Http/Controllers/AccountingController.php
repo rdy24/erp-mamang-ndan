@@ -7,10 +7,15 @@ use Illuminate\Http\Request;
 
 class AccountingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $accountings = Accounting::all();
 
-        return view('accountings.index', compact('accountings'));
+        if ($request->has('status')) {
+            $accountings = Accounting::with(['payment', 'payment.bill', 'payment.sale'])->where('status', 'like', "%" . $request->status . "%")->get();
+        } else {
+            $accountings = Accounting::with(['payment', 'payment.bill', 'payment.sale'])->get();
+        }
+
+        return view('pages.accounting.index', compact('accountings'));
     }
 }

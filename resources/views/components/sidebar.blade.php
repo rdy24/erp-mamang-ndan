@@ -53,6 +53,11 @@
                     href="{{ route('dashboard.sale.index') }}" class="nav-link"><i
                         class="fas fa-archive"></i><span>Quotation</span></a>
             </li>
+            <li class="menu-header">Accounting</li>
+            <li class="{{ request()->routeIs('dashboard.accounting.*') ? 'active' : '' }}"><a
+                    href="{{ route('dashboard.accounting.index') }}" class="nav-link"><i
+                        class="fas fa-archive"></i><span>Accounting</span></a>
+            </li>
         </ul>
     </aside>
 </div>

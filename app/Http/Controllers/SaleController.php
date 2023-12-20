@@ -176,7 +176,7 @@ class SaleController extends Controller
 
             Accounting::create([
                 'payment_id' => $payment->id,
-                'customer' => $sale->customer->nama,
+                'customer' => $sale->customer->name,
                 'jumlah' => $data['amount'],
                 'status' => 'Debit',
                 'tanggal' => $data['payment_date'],
