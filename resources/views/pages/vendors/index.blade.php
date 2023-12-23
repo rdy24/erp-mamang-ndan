@@ -78,7 +78,7 @@ Dashboard | {{ config('app.name') }}
                         </table>
                     </div>
                     <div class="col-md-3">
-                        <a href="" class="btn btn-warning">Edit</a>
+                        <a href="{{ route('dashboard.vendors.edit', $vendor->id) }}" class="btn btn-warning">Edit</a>
                         <a href="" class="btn btn-danger">Hapus</a>
                     </div>
                 </div>

@@ -25,14 +25,16 @@ class Bill extends Model
 
     public static function setKodeBill()
     {
-        $lastBill = Bill::orderBy('id', 'desc')->first();
-        if (! $lastBill) {
-            return 'B0001';
+        $latest = Bill::whereYear('created_at', date('Y'))->latest()->first();
+
+        if (!$latest) {
+            $number = 1;
+        } else {
+            $number = (int)substr($latest->kode_bill, -3) + 1;
         }
 
-        $lastBillNumber = substr($lastBill->kode_bill, 1);
-        $newBillNumber = $lastBillNumber + 1;
+        $number = str_pad($number, 3, '0', STR_PAD_LEFT);
 
-        return 'B' . sprintf('%04s', $newBillNumber);
+        return 'BILL/' . date('Y/m/') . $number;
     }
 }

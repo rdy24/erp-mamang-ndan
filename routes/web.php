@@ -75,6 +75,8 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'aut
     Route::get('/manufacturing-orders/{manufacturingOrder}/edit', [ManufacturingOrderController::class, 'edit'])->name('manufacturing-orders.edit');
     Route::put('/manufacturing-orders/{manufacturingOrder}/update', [ManufacturingOrderController::class, 'update'])->name('manufacturing-orders.update');
     Route::delete('/manufacturing-orders/{manufacturingOrder}/delete', [ManufacturingOrderController::class, 'destroy'])->name('manufacturing-orders.destroy');
+    Route::get('/manufacturing-orders/{manufacturingOrder}/to-do', [ManufacturingOrderController::class, 'toDo'])->name('manufacturing-orders.todo');
+    Route::get('/manufacturing-orders/{manufacturingOrder}/check', [ManufacturingOrderController::class, 'checkMaterial'])->name('manufacturing-orders.check-material');
     Route::get('/manufacturing-orders/{manufacturingOrder}/confirm', [ManufacturingOrderController::class, 'confirm'])->name('manufacturing-orders.confirm');
     Route::get('/manufacturing-orders/{manufacturingOrder}/progress', [ManufacturingOrderController::class, 'progress'])->name('manufacturing-orders.progress');
     Route::get('/manufacturing-orders/{manufacturingOrder}/done', [ManufacturingOrderController::class, 'done'])->name('manufacturing-orders.done');
@@ -91,6 +93,9 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'aut
     Route::get('/rfq/create', [PurchaseController::class, 'rfqCreate'])->name('purchase.rfq.create');
     Route::post('/rfq/store', [PurchaseController::class, 'rfqStore'])->name('purchase.rfq.store');
     Route::get('/rfq/{purchase}', [PurchaseController::class, 'show'])->name('purchase.rfq.show');
+    Route::get('/rfq/{purchase}/edit', [PurchaseController::class, 'rfqEdit'])->name('purchase.rfq.edit');
+    Route::put('/rfq/{purchase}/update', [PurchaseController::class, 'rfqUpdate'])->name('purchase.rfq.update');
+    Route::delete('/rfq/{purchase}/delete', [PurchaseController::class, 'rfqDestroy'])->name('purchase.rfq.destroy');
     Route::get('/rfq/{purchase}/confirm', [PurchaseController::class, 'rfqConfirm'])->name('purchase.rfq.confirm');
     Route::get('/purchase-order', [PurchaseController::class, 'index'])->name('purchase-order.index');
     Route::get('/purchase-order/{purchase}', [PurchaseController::class, 'show'])->name('purchase-order.show');

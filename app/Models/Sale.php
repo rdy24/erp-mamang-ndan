@@ -46,6 +46,11 @@ class Sale extends Model
         return $this->hasOne(Payment::class);
     }
 
+    public function quotation_template()
+    {
+        return $this->belongsTo(QuotationTemplate::class);
+    }
+
     public function getTotalAttribute()
     {
         return $this->sale_details->sum(function ($detail) {

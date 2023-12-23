@@ -59,7 +59,7 @@ Sale | {{ config('app.name') }}
         </div>
         <div>
             @if ($sale->status == 'Quotation')
-            <a href="{{ route('dashboard.manufacturing-orders.edit', $sale->id) }}" class="btn btn-warning">
+            <a href="{{ route('dashboard.sale.quotation.edit', $sale->id) }}" class="btn btn-warning">
                 <i class="fas fa-pen"></i> Edit
             </a>
             <a href="{{ route('dashboard.manufacturing-orders.destroy', $sale->id) }}" class="btn btn-danger"

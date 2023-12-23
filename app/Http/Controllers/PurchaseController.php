@@ -79,8 +79,56 @@ class PurchaseController extends Controller
         return redirect()->route('dashboard.purchase.rfq.show', $purchaseId)->with('success', 'RFQ berhasil ditambahkan');
     }
 
+    public function rfqEdit(Purchase $purchase)
+    {
+        $vendors = Vendor::all();
+        $materials = Material::all();
+        return view('pages.purchase.rfq-edit', [
+            'purchase' => $purchase,
+            'vendors' => $vendors,
+            'materials' => $materials
+        ]);
+    }
+
+    public function rfqUpdate(Request $request, Purchase $purchase)
+    {
+        $data = $request->validate([
+            'vendor_id' => 'required',
+            'id_bahan' => 'required',
+            'jumlah' => 'required',
+            'satuan' => 'required',
+            'harga' => 'required',
+            'total_harga' => 'required',
+        ]);
+
+        DB::transaction(function () use ($data, $purchase) {
+            $purchase->update([
+                'vendor_id' => $data['vendor_id'],
+                'total_harga' => array_sum($data['total_harga']),
+            ]);
+
+            $purchase->purchaseDetails()->delete();
+
+            foreach ($data['id_bahan'] as $key => $value) {
+                $purchase->purchaseDetails()->create([
+                    'purchase_id' => $purchase->id,
+                    'id_bahan' => $value,
+                    'jumlah' => $data['jumlah'][$key],
+                    'satuan' => $data['satuan'][$key],
+                    'harga' => $data['harga'][$key],
+                    'total_harga' => $data['total_harga'][$key],
+                ]);
+            }
+        });
+
+        return redirect()->route('dashboard.purchase.rfq.show', $purchase->id)->with('success', 'RFQ berhasil diubah');
+    }
+
     public function show(Purchase $purchase)
     {
+        $titleModal = 'Hapus RFQ';
+        $text = "Apakah anda yakin ingin menghapus RFQ ini?";
+        confirmDelete($titleModal, $text);
         $isPurchaseOrder = false;
         $title = 'Request For Quotation';
         if (request()->is('dashboard/purchase-order/*')) {
@@ -94,6 +142,14 @@ class PurchaseController extends Controller
             'isPurchaseOrder' => $isPurchaseOrder,
             'title' => $title,
         ]);
+    }
+
+    public function rfqDestroy(Purchase $purchase)
+    {
+        $purchase->purchaseDetails()->delete();
+        $purchase->delete();
+
+        return redirect()->route('dashboard.purchase.rfq')->with('success', 'RFQ berhasil dihapus');
     }
 
     public function rfqConfirm(Purchase $purchase)

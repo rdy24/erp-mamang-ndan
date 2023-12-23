@@ -45,6 +45,7 @@ class SaleController extends Controller
                 'customer_id' => $request->customer_id,
                 'expired' => $request->expired_date,
                 'status' => 'Quotation',
+                'quotation_template_id' => $request->quotation_template_id,
             ]);
 
             foreach ($request->id_produk as $key => $value) {
@@ -72,11 +73,13 @@ class SaleController extends Controller
     {
         $products = Product::all();
         $customers = Customer::all();
+        $templates = QuotationTemplate::all();
 
         $data = [
             'sale' => $sale,
             'products' => $products,
             'customers' => $customers,
+            'templates' => $templates,
         ];
         return view('pages.sale.quotation-edit', $data);
     }
@@ -87,6 +90,7 @@ class SaleController extends Controller
             $sale->update([
                 'customer_id' => $request->customer_id,
                 'expired' => $request->expired_date,
+                'quotation_template_id' => $request->quotation_template_id,
             ]);
 
             $sale->sale_details()->delete();

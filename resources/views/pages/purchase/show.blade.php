@@ -58,10 +58,10 @@ Purchase | {{ config('app.name') }}
         </div>
         <div>
             @if ($purchase->status == 'RFQ')
-            <a href="{{ route('dashboard.manufacturing-orders.edit', $purchase->id) }}" class="btn btn-warning">
+            <a href="{{ route('dashboard.purchase.rfq.edit', $purchase->id) }}" class="btn btn-warning">
                 <i class="fas fa-pen"></i> Edit
             </a>
-            <a href="{{ route('dashboard.manufacturing-orders.destroy', $purchase->id) }}" class="btn btn-danger"
+            <a href="{{ route('dashboard.purchase.rfq.destroy', $purchase->id) }}" class="btn btn-danger"
                 data-confirm-delete="true">
                 <i class="fas fa-trash"></i> Hapus
             </a>
@@ -153,8 +153,7 @@ Purchase | {{ config('app.name') }}
                 </div>
                 @endif
                 @if ($purchase->status == 'Purchase Order' && $purchase->bill_status == 'Waiting Bills' &&
-                $bill?->status
-                == 'Draft')
+                $bill?->status == 'Draft')
                 <div class="col-md-2">
                     <table class="table table-sm">
                         <tr style="white-space: nowrap">
@@ -239,7 +238,7 @@ Purchase | {{ config('app.name') }}
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label for="amount">Jumlah</label>
-                                    <input type="text" name="amount" id="amount" class="form-control">
+                                    <input type="text" name="amount" id="amount" class="form-control" value="{{ $purchase->total }}">
                                 </div>
                                 <div class="mb-2">
                                     <label for="payment_date">Tanggal</label>

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode_sales')->nullable();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+            $table->foreignId('quotation_template_id')->nullable()->constrained('quotation_templates')->onDelete('cascade');
             $table->enum('status', ['Quotation', 'Sales Order', 'Invoice'])->default('Quotation');
             $table->enum('invoice_status', ['Draft', 'Posted'])->nullable();
             $table->enum('delivery_status', ['Draft', 'Delivered'])->nullable();

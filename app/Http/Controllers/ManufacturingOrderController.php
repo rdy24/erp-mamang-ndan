@@ -67,9 +67,64 @@ class ManufacturingOrderController extends Controller
 
     public function show(ManufacturingOrder $manufacturingOrder)
     {
+        $title = 'Hapus Manufacturing Order';
+        $text = "Apakah anda yakin ingin menghapus manufacturing order ini?";
+        confirmDelete($title, $text);
         return view('pages.manufacturing-order.show', [
             'manufacturingOrder' => $manufacturingOrder,
         ]);
+    }
+
+    public function edit(ManufacturingOrder $manufacturingOrder)
+    {
+        $products = Product::all();
+        $bom = Bom::all();
+        return view('pages.manufacturing-order.edit', [
+            'manufacturingOrder' => $manufacturingOrder,
+            'products' => $products,
+            'bom' => $bom,
+        ]);
+    }
+
+    public function update(Request $request, ManufacturingOrder $manufacturingOrder)
+    {
+        $data = $request->validate([
+            'id_produk' => 'required',
+            'id_bom' => 'required',
+            'jumlah_order' => 'required',
+            'id_bahan' => 'required',
+            'jumlah_bahan' => 'required',
+            'satuan' => 'required',
+        ]);
+
+        DB::transaction(function () use ($data, $manufacturingOrder) {
+            $manufacturingOrder->update([
+                'id_produk' => $data['id_produk'],
+                'id_bom' => $data['id_bom'],
+                'jumlah_order' => $data['jumlah_order'],
+            ]);
+
+            $manufacturingOrder->manufacturingOrderDetails()->delete();
+
+            foreach ($data['id_bahan'] as $key => $value) {
+                ManufacturingOrderDetail::create([
+                    'id_manufacturing_order' => $manufacturingOrder->id,
+                    'id_bahan' => $value,
+                    'jumlah' => $data['jumlah_bahan'][$key],
+                    'satuan' => $data['satuan'][$key],
+                ]);
+            }
+        });
+
+        return redirect()->route('dashboard.manufacturing-orders.show', $manufacturingOrder)->with('success', 'Manufacturing Order berhasil diubah');
+    }
+
+    public function destroy(ManufacturingOrder $manufacturingOrder)
+    {
+        $manufacturingOrder->manufacturingOrderDetails()->delete();
+        $manufacturingOrder->delete();
+
+        return redirect()->route('dashboard.manufacturing-orders.index')->with('success', 'Manufacturing Order berhasil dihapus');
     }
 
     public function getBomDetail($jumlah, $id): \Illuminate\Http\JsonResponse
@@ -109,11 +164,31 @@ class ManufacturingOrderController extends Controller
         return response()->json($data);
     }
 
+    public function checkMaterial(ManufacturingOrder $manufacturingOrder)
+    {
+        $manufacturingOrderDetails = $manufacturingOrder->manufacturingOrderDetails;
+
+        foreach ($manufacturingOrderDetails as $item) {
+            $material = Material::find($item->id_bahan);
+            if ($material->jumlah < $item->jumlah) {
+
+                $manufacturingOrder->update([
+                    'material_status' => 'not-available',
+                ]);
+
+                return redirect()->route('dashboard.manufacturing-orders.show', $manufacturingOrder)->with('error', 'Bahan ' . $material->nama_bahan . ' tidak cukup');
+            }
+        }
+
+        $manufacturingOrder->update([
+            'material_status' => 'available',
+        ]);
+
+        return redirect()->route('dashboard.manufacturing-orders.show', $manufacturingOrder)->with('success', 'Bahan Tersedia Untuk Produksi');
+    }
+
     public function confirm(ManufacturingOrder $manufacturingOrder)
     {
-        if(!$manufacturingOrder) {
-            abort(404);
-        }
         $manufacturingOrder->update([
             'status' => 'Confirmed',
         ]);
@@ -121,16 +196,22 @@ class ManufacturingOrderController extends Controller
         return redirect()->route('dashboard.manufacturing-orders.show', $manufacturingOrder)->with('success', 'Manufacturing Order berhasil dikonfirmasi');
     }
 
+    public function toDo(ManufacturingOrder $manufacturingOrder)
+    {
+        $manufacturingOrder->update([
+            'status' => 'To-Do',
+        ]);
+
+        return redirect()->route('dashboard.manufacturing-orders.show', $manufacturingOrder)->with('success', 'Manufacturing Order akan diproses');
+    }
+
     public function progress(ManufacturingOrder $manufacturingOrder)
     {
-        if(!$manufacturingOrder) {
-            abort(404);
-        }
         $manufacturingOrder->update([
             'status' => 'In-Progress',
         ]);
 
-        return redirect()->route('dashboard.manufacturing-orders.show', $manufacturingOrder)->with('success', 'Manufacturing Order akan diproses');
+        return redirect()->route('dashboard.manufacturing-orders.show', $manufacturingOrder)->with('success', 'Manufacturing Order diproses');
     }
 
     public function done(ManufacturingOrder $manufacturingOrder)

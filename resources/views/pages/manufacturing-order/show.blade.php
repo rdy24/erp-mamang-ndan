@@ -14,20 +14,39 @@ Dashboard | {{ config('app.name') }}
             <a href="{{ route('dashboard.manufacturing-orders.index') }}" class="btn btn-primary">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
+            @if ($manufacturingOrder->material_status == 'not-available' || $manufacturingOrder->material_status == null)
+            <a href="{{ route('dashboard.manufacturing-orders.check-material', $manufacturingOrder->id) }}"
+                class="btn btn-warning">
+                <i class="fas fa-check"></i> Check Availability
+            </a>
+            @endif
+            @if ($manufacturingOrder->status == 'Draft' && $manufacturingOrder->material_status == 'available')
             <a href="{{ route('dashboard.manufacturing-orders.confirm', $manufacturingOrder->id) }}"
-                class="btn btn-info">
+                class="btn btn-success">
                 <i class="fas fa-check"></i> Confirm
             </a>
+            @endif
+            @if ($manufacturingOrder->status == 'Confirmed' && $manufacturingOrder->material_status == 'available')
+            <a href="{{ route('dashboard.manufacturing-orders.todo', $manufacturingOrder->id) }}"
+                class="btn btn-primary">
+                <i class="fas fa-check"></i> To Do
+            </a>
+            @endif
+            @if ($manufacturingOrder->status == 'To-Do' && $manufacturingOrder->material_status == 'available')
             <a href="{{ route('dashboard.manufacturing-orders.progress', $manufacturingOrder->id) }}"
                 class="btn btn-dark">
-                <i class="fas fa-procedures"></i> On Progress
+                <i class="fas fa-procedures"></i> Produce
             </a>
+            @endif
+            @if ($manufacturingOrder->status == 'In-Progress' && $manufacturingOrder->material_status == 'available')
             <a href="{{ route('dashboard.manufacturing-orders.done', $manufacturingOrder->id) }}"
                 class="btn btn-success">
                 <i class="fas fa-check-square"></i> Done
             </a>
+            @endif
         </div>
         <div>
+            @if ($manufacturingOrder->status == 'Draft')
             <a href="{{ route('dashboard.manufacturing-orders.edit', $manufacturingOrder->id) }}"
                 class="btn btn-warning">
                 <i class="fas fa-pen"></i> Edit
@@ -36,6 +55,7 @@ Dashboard | {{ config('app.name') }}
                 class="btn btn-danger" data-confirm-delete="true">
                 <i class="fas fa-trash"></i> Hapus
             </a>
+            @endif
         </div>
     </div>
 
@@ -43,14 +63,14 @@ Dashboard | {{ config('app.name') }}
         <div class="card-body">
             <table class="table table-sm">
                 <tr style="white-space: nowrap">
-                    <td width="30px">BOM</td>
-                    <td width="10px">:</td>
+                    <td width="100px">BOM</td>
+                    <td width="20px">:</td>
                     <td>{{ $manufacturingOrder->bom->kode_bom ?? '-' }} - {{
                         $manufacturingOrder->bom->product->nama_produk ?? '-' }}</td>
                 </tr>
                 <tr style="white-space: nowrap">
-                    <td width="30px">Nama Produk</td>
-                    <td width="10px">:</td>
+                    <td width="100px">Nama Produk</td>
+                    <td width="20px">:</td>
                     <td>{{ $manufacturingOrder->product->nama_produk ?? '-' }}</td>
                 </tr>
                 <tr>
@@ -58,6 +78,13 @@ Dashboard | {{ config('app.name') }}
                     <td>:</td>
                     <td>{{ $manufacturingOrder->jumlah_order }}</td>
                 </tr>
+                @if ($manufacturingOrder->material_status)
+                    <tr style="white-space: nowrap">
+                        <td>Material Status</td>
+                        <td>:</td>
+                        <td class="text-capitalize">{{ $manufacturingOrder->material_status }}</td>
+                    </tr>
+                @endif
                 <tr>
                     <td>Status</td>
                     <td>:</td>

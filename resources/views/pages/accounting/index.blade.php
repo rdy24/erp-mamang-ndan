@@ -37,6 +37,14 @@ Accounting | {{ config('app.name') }}
                     </div>
                 </form>
                 <div class="card-body">
+                    @if (request()->status == 'Debit')
+                    <h6>Pemasukan : {{ $total }}</h6>
+                    @elseif (request()->status == 'Kredit')
+                    <h6>Pengeluaran : {{ $total }}</h6>
+                    @else
+                    <h6>Pemasukan : {{ $debit }}</h6>
+                    <h6>Pengeluaran : {{ $kredit }}</h6>
+                    @endif
                     <div class="table-responsive">
                         <table class="table table-striped" id="table-1">
                             <thead>

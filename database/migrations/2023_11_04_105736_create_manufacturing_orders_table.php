@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('jumlah_order')->nullable();
             $table->foreignId('id_produk')->references('id')->on('products')->onDelete('cascade');
             $table->foreignId('id_bom')->references('id')->on('boms')->onDelete('cascade');
-            $table->enum('status', ['Draft', 'Confirmed','In-Progress', 'Done'])->default('Draft');
+            $table->enum('status', ['Draft', 'Confirmed','To-Do','In-Progress', 'Done'])->default('Draft');
+            $table->enum('material_status', ['available', 'not-available'])->nullable();
             $table->timestamps();
         });
     }

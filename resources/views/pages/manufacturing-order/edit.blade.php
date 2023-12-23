@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Edit BOM | {{ config('app.name') }}
+Tambah Order | {{ config('app.name') }}
 @endsection
 
 @push('css-libraries')
@@ -12,10 +12,10 @@ Edit BOM | {{ config('app.name') }}
 
 @section('content')
 <div class="section-header">
-    <h1>Edit BOM</h1>
+    <h1>Edit Order</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item"><a href="#">Dashboard</a></div>
-        <div class="breadcrumb-item active">Edit BOM</div>
+        <div class="breadcrumb-item active">Edit Order</div>
     </div>
 </div>
 
@@ -24,26 +24,16 @@ Edit BOM | {{ config('app.name') }}
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('dashboard.bom.update', $bom->id) }}" method="POST"
+                    <form action="{{ route('dashboard.manufacturing-orders.update', $manufacturingOrder->id) }}" method="POST"
                         enctype="multipart/form-data">
-                        @method('PUT')
                         @csrf
-                        <div class="form-group">
-                            <label for="kode_bom">Kode BOM</label>
-                            <input type="text" class="form-control" id="kode_bom" name="kode_bom" required
-                                value="{{ old('kode_bom', $bom->kode_bom) }}">
-                            @error('kode_bom')
-                            <p class="text-danger">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                        </div>
+                        @method('PUT')
                         <div class="form-group">
                             <label for="id_produk">Produk</label>
                             <select name="id_produk" required class="form-control select2">
+                                <option value="">-- Pilih Produk --</option>
                                 @foreach($products as $product)
-                                <option value="{{ $product->id }}" {{ old('id_produk', $bom->id_produk)==$product->id ?
-                                    'selected' : ''
+                                <option value="{{ $product->id }}" {{ old('id_produk', $manufacturingOrder->id_produk)==$product->id ? 'selected' : ''
                                     }}>
                                     {{ $product->nama_produk }}
                                 </option>
@@ -51,54 +41,53 @@ Edit BOM | {{ config('app.name') }}
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="id_bom">BOM</label>
+                            <select name="id_bom" required class="form-control select2" id="id_bom"
+                                onchange="resetJumlah()">
+                                <option value="">-- Pilih BOM --</option>
+                                @foreach($bom as $item)
+                                <option value="{{ $item->id }}" {{ old('id_bom', $manufacturingOrder->id_bom)==$item->id ? 'selected' : ''
+                                    }}>
+                                    {{ $item->kode_bom }} - {{ $item->product->nama_produk ?? 'Tidak Ada Produk' }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="jumlah_order">Jumlah</label>
+                            <input type="number" class="form-control" id="jumlah_order" name="jumlah_order" required
+                                value="{{ old('jumlah_order', $manufacturingOrder->jumlah_order) }}">
+                            @error('jumlah_order')
+                            <p class="text-danger">
+                                {{ $message }}
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group">
                             <label for="id_bahan">Bahan Baku</label>
                             <div id="bahan-baku-container">
-                                @foreach ($bom->bomDetail as $item)
+                                @foreach($manufacturingOrder->manufacturingOrderDetails as $item)
                                 <div class="row form-bahan-baku mb-2">
                                     <div class="col-md-5">
-                                        <select name="id_bahan[]" required class="form-control">
-                                            @foreach($materials as $material)
-                                            <option value="{{ $material->id }}" {{ old('id_bahan[]', $item->
-                                                id_bahan)==$material->id ?
-                                                'selected' :
-                                                ''
-                                                }}>
-                                                {{ $material->nama_bahan }}
+                                        <select name="id_bahan[]" class="form-control">
+                                            <option value="{{ $item->id_bahan }}">{{ $item->material->nama_bahan }}
                                             </option>
-                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" name="jumlah[]" required
-                                            value="{{ old('jumlah[]', $item->jumlah) }}" placeholder="jumlah">
+                                        <input type="text" class="form-control" name="jumlah_bahan[]" readonly
+                                            value="{{ $item->jumlah }}">
                                     </div>
                                     <div class="col-md-2">
-                                        <select name="satuan[]" id="satuan" class="form-control">
-                                            <option value="kg" {{ old('satuan[]', $item->satuan)=='kg' ? 'selected'
-                                                :''}}>kg</option>
-                                            <option value="gram" {{ old('satuan[]', $item->satuan)=='gram' ? 'selected'
-                                                :''}}>gram</option>
-                                            <option value="liter" {{ old('satuan[]', $item->satuan)=='liter' ?
-                                                'selected'
-                                                :''}}>liter</option>
-                                            <option value="ml" {{ old('satuan[]', $item->satuan)=='ml' ? 'selected'
-                                                :''}}>ml</option>
-                                            <option value="pcs" {{ old('satuan[]', $item->satuan)=='pcs' ? 'selected'
-                                                :''}}>pcs</option>
-                                        </select>
+                                        <input type="text" class="form-control" name="satuan[]" readonly
+                                            value="{{ $item->satuan }}">
                                     </div>
                                 </div>
                                 @endforeach
-                                <div id="button-add-remove">
-                                    <button type="button" class="btn btn-primary" id="add-row"><i
-                                            class="fas fa-plus"></i></button>
-                                    <button type="button" class="btn btn-danger" id="remove-row"><i
-                                            class="fas fa-minus"></i></button>
-                                </div>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Edit</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                         <a href="{{ route('dashboard.products.index') }}" class="btn btn-outline-primary">Batal</a>
                     </form>
                 </div>
@@ -116,29 +105,65 @@ Edit BOM | {{ config('app.name') }}
 
 @push('js-page')
 <script>
-    function previewImage() {
-      const gambar = document.querySelector('#gambar');
-      const imgPreview = document.querySelector('.img-preview');
-      const blob = URL.createObjectURL(gambar.files[0]);
-      imgPreview.src = blob;
-    }
-</script>
-<script>
-    document.addEventListener('click', function (e) {
-        if (e.target && e.target.id === 'add-row') {
-            var newRow = document.querySelector('.row.form-bahan-baku').cloneNode(true);
-            var container = document.getElementById('bahan-baku-container');
-            var buttonDiv = document.getElementById('button-add-remove');
-            // $('#bahan-baku-container .select2').select2();
-            container.insertBefore(newRow, buttonDiv);
-        } else if (e.target && e.target.id === 'remove-row') {
-            var container = document.getElementById('bahan-baku-container');
-            var rows = container.querySelectorAll('.row.form-bahan-baku');
-            if (rows.length > 1) {
-                container.removeChild(rows[rows.length - 1]);
-            }
-            // $('#bahan-baku-container .select2').select2();
+    // Menggunakan JavaScript untuk menangani peristiwa 'keydown' pada input
+    document.getElementById('jumlah_order').addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Mencegah form dari submit
+            sendDataToBackend();
         }
     });
+
+    function resetJumlah() {
+        document.getElementById('jumlah_order').value = 1;
+        sendDataToBackend();
+    }
+
+    // Fungsi untuk mengirim data ke backend
+    function sendDataToBackend() {
+        // Dapatkan nilai input
+        let jumlahValue = document.getElementById('jumlah_order').value;
+        let bomId = document.getElementById('id_bom').value;
+
+        if (jumlahValue == '' || bomId == '') {
+            return;
+        }
+
+        //  fetch to '/get-bom' dengan method get
+        fetch(`/get-bom/${jumlahValue}/${bomId}`, {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Ambil elemen dengan ID "bahan-baku-container"
+                const bahanBakuContainer = document.getElementById('bahan-baku-container');
+                
+                // Buat HTML baru berdasarkan data yang diterima
+                let newHTML = '';
+                
+                data.bomDetail.forEach(item => {
+                newHTML += `
+                    <div class="row form-bahan-baku mb-2">
+                        <div class="col-md-5">
+                            <select name="id_bahan[]" class="form-control">
+                                <option value="${item.id_bahan}">${item.nama_bahan}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" name="jumlah_bahan[]" readonly value="${item.jumlah}">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" name="satuan[]" readonly value="${item.satuan}">
+                        </div>
+                    </div>
+                `;
+                })
+
+                bahanBakuContainer.innerHTML = newHTML;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+            
+    }
 </script>
 @endpush
