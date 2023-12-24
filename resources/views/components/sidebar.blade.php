@@ -58,6 +58,19 @@
                     href="{{ route('dashboard.accounting.index') }}" class="nav-link"><i
                         class="fas fa-archive"></i><span>Accounting</span></a>
             </li>
+            <li class="menu-header">Employee</li>
+            <li class="{{ request()->routeIs('dashboard.departments.*') ? 'active' : '' }}"><a
+                    href="{{ route('dashboard.departments.index') }}" class="nav-link"><i
+                        class="fas fa-archive"></i><span>Department</span></a>
+            </li>
+            <li class="{{ request()->routeIs('dashboard.job-positions.*') ? 'active' : '' }}"><a
+                    href="{{ route('dashboard.job-positions.index') }}" class="nav-link"><i
+                        class="fas fa-archive"></i><span>Job Position</span></a>
+            </li>
+            <li class="{{ request()->routeIs('dashboard.employees.*') ? 'active' : '' }}"><a
+                    href="{{ route('dashboard.employees.index') }}" class="nav-link"><i
+                        class="fas fa-archive"></i><span>Employee</span></a>
+            </li>
         </ul>
     </aside>
 </div>

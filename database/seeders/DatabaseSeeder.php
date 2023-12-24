@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
             BomSeeder::class,
             VendorSeeder::class,
             CustomerSeeder::class,
+            DepartmentSeeder::class,
+            JobPositionSeeder::class,
         ]);
     }
 }

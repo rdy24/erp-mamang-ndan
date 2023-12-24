@@ -5,6 +5,9 @@ use App\Http\Controllers\BomController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\ManufacturingOrderController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProductController;
@@ -39,6 +42,7 @@ Route::get('/get-bom/{jumlah}/{id}', [ManufacturingOrderController::class, 'getB
 Route::get('/get-vendor/{id}', [VendorController::class, 'getVendor'])->name('get-vendor');
 Route::get('/get-customer/{id}', [CustomerController::class, 'getCustomer'])->name('get-customer');
 Route::get('/get-template/{id}', [QuotationTemplateController::class, 'getTemplate'])->name('get-template');
+Route::get('/get-jobPositions/{id}', [JobPositionController::class, 'getJobPositionByDepartmentId'])->name('get-jobPosition');
 
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'auth'], function () {
 
@@ -142,6 +146,31 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => 'aut
     Route::get('/print-invoice/{sale}',[SaleController::class, 'printInvoice'])->name('sale.print-invoice');
 
     Route::get('/accounting', [AccountingController::class, 'index'])->name('accounting.index');
+
+    Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
+    Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
+    Route::post('/departments/store', [DepartmentController::class, 'store'])->name('departments.store');
+    Route::get('/departments/{department}', [DepartmentController::class, 'show'])->name('departments.show');
+    Route::get('/departments/{department}/edit', [DepartmentController::class, 'edit'])->name('departments.edit');
+    Route::put('/departments/{department}/update', [DepartmentController::class, 'update'])->name('departments.update');
+    Route::delete('/departments/{department}/delete', [DepartmentController::class, 'destroy'])->name('departments.destroy');
+
+    Route::get('/job-positions', [JobPositionController::class, 'index'])->name('job-positions.index');
+    Route::get('/job-positions/create', [JobPositionController::class, 'create'])->name('job-positions.create');
+    Route::post('/job-positions/store', [JobPositionController::class, 'store'])->name('job-positions.store');
+    Route::get('/job-positions/{jobPosition}', [JobPositionController::class, 'show'])->name('job-positions.show');
+    Route::get('/job-positions/{jobPosition}/edit', [JobPositionController::class, 'edit'])->name('job-positions.edit');
+    Route::put('/job-positions/{jobPosition}/update', [JobPositionController::class, 'update'])->name('job-positions.update');
+    Route::delete('/job-positions/{jobPosition}/delete', [JobPositionController::class, 'destroy'])->name('job-positions.destroy');
+
+    Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+    Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
+    Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
+    Route::get('/employees/{employee}', [EmployeeController::class, 'show'])->name('employees.show');
+    Route::get('/employees/{employee}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
+    Route::put('/employees/{employee}/update', [EmployeeController::class, 'update'])->name('employees.update');
+    Route::delete('/employees/{employee}/delete', [EmployeeController::class, 'destroy'])->name('employees.destroy');
+    
 });
 
 

@@ -10,6 +10,9 @@ class VendorController extends Controller
 {
     public function index()
     {
+        $title = 'Hapus Vendor';
+        $text = "Apakah anda yakin ingin menghapus vendor ini?";
+        confirmDelete($title, $text);
         if (request()->has('search')) {
             $vendors = Vendor::where('name', 'like', "%" . request('search') . "%")
                         ->paginate(5);
@@ -24,9 +27,6 @@ class VendorController extends Controller
 
     public function show(Vendor $vendor)
     {
-        $title = 'Hapus Vendor';
-        $text = "Apakah anda yakin ingin menghapus vendor ini?";
-        confirmDelete($title, $text);
         return view('pages.vendors.show', [
             'vendor' => $vendor,
         ]);
@@ -108,5 +108,15 @@ class VendorController extends Controller
     {
         $vendor = Vendor::find($id);
         return response()->json($vendor);
+    }
+
+    public function destroy(Vendor $vendor)
+    {
+        if ($vendor->foto) {
+            Storage::delete('public/uploads/vendor' . $vendor->foto);
+        }
+        $vendor->delete();
+
+        return redirect()->route('dashboard.vendors.index')->with('success', 'Vendor berhasil dihapus');
     }
 }
