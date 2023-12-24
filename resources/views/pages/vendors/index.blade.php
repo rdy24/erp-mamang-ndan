@@ -31,7 +31,7 @@ Dashboard | {{ config('app.name') }}
     <div class="card px-2 py-3">
         <div class="row">
             <div class="col-md-3">
-                <img src="{{ $vendor->gambar ? asset('uploads/vendor/' . $vendor->gambar) : asset('assets/img/blank-image.png') }}"
+                <img src="{{ $vendor->foto ? asset('uploads/vendor/' . $vendor->foto) : asset('assets/img/blank-image.png') }}"
                     alt="" style="width: 250px; object-fit: cover; object-position: center;">
             </div>
             <div class="col-md-9">
