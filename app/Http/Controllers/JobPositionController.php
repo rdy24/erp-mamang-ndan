@@ -89,4 +89,13 @@ class JobPositionController extends Controller
             'jobPositions' => $jobPositions,
         ]);
     }
+
+    public function print()
+    {
+        $jobPositions = JobPosition::all();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pages.job-positions.print', ['jobPositions' => $jobPositions]);
+
+        return $pdf->stream('jobPositions.pdf');
+    }
 }

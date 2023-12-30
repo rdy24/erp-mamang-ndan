@@ -23,6 +23,11 @@ class Invoice extends Model
         return $this->belongsTo(Sale::class);
     }
 
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+
     public static function setKodeInvoice()
     {
         $latest = Invoice::whereYear('created_at', date('Y'))->latest()->first();

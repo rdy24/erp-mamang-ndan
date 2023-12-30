@@ -52,32 +52,35 @@
 <body>
 
     <div id="quotation">
-        <h1>Quotation</h1>
+        <h1>Request For Quotation {{ $purchase->kode_purchase }}</h1>
 
         <div>
-            <strong>Customer:</strong> {{ $sale->customer->name }}<br>
-            <strong>Date:</strong> {{ $sale->created_at->format('d M Y') }}
+            <strong>Vendor:</strong> {{ $purchase->vendor->name }}<br>
+            <strong>Date:</strong> {{ $purchase->created_at->format('d M Y') }}
         </div>
 
         <table>
             <thead>
                 <tr>
-                    <th>Produk</th>
-                    <th>Jumlah</th>
-                    <th>Unit Price</th>
-                    <th>Total</th>
+                    <th>Bahan Baku</th>
+                    <th>Jumlah Bahan</th>
+                    <th>Harga Per Unit</th>
+                    <th>Total Harga</th>
                 </tr>
             </thead>
             <tbody>
-                {{-- @dd($sale->sale_details) --}}
-                @foreach ($sale->sale_details as $item)
+                @foreach ($purchase->purchaseDetails as $item)
                 <tr>
-                    <td>{{ $item->product->nama_produk }}</td>
-                    <td>{{ $item->qty }}</td>
-                    <td>Rp. {{ number_format($item->product->harga) }}</td>
-                    <td>Rp. {{ number_format($item->qty * $item->product->harga) }}</td>
+                    <td>{{ $item->material->nama_bahan }}</td>
+                    <td>{{ $item->jumlah }} {{ $item->satuan }}</td>
+                    <td>Rp. {{ number_format($item->material->harga) }}</td>
+                    <td>Rp. {{ number_format($item->total_harga) }}</td>
                 </tr>
                 @endforeach
+                <tr>
+                    <th colspan="3" style="text-align: center">Total Harga</th>
+                    <th>Rp. {{ number_format($purchase->total) }}</th>
+                </tr>
             </tbody>
         </table>
     </div>

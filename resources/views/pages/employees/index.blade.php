@@ -22,7 +22,7 @@ Employee | {{ config('app.name') }}
             <a href="{{ route('dashboard.employees.create') }}" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Tambah employee
             </a>
-            <a href="{{ route('dashboard.employees.create') }}" class="btn btn-primary">
+            <a href="{{ route('dashboard.employees.print') }}" class="btn btn-primary">
                 <img src="{{ asset('assets/img/vuesax/bold/document-download.png') }}" alt="icon download"
                     style="height: 25px">
             </a>

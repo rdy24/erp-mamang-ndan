@@ -70,4 +70,13 @@ class DepartmentController extends Controller
 
         return redirect()->route('dashboard.departments.index')->with('success', 'Department deleted successfully!');
     }
+
+    public function print()
+    {
+        $departments = Department::all();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pages.departments.print', ['departments' => $departments]);
+
+        return $pdf->stream('departments.pdf');
+    }
 }

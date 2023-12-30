@@ -101,4 +101,13 @@ class ProductController extends Controller
 
         return redirect()->route('dashboard.products.index')->with('success', 'Produk berhasil dihapus');
     }
+
+    public function print()
+    {
+        $products = Product::all();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pages.products.print', ['products' => $products]);
+
+        return $pdf->stream('products.pdf');
+    }
 }

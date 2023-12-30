@@ -26,7 +26,7 @@ Bahan Baku | {{ config('app.name') }}
                     <a href="{{ route('dashboard.materials.create') }}" class="btn btn-primary"><i class="fas fa-plus"
                             aria-hidden="true"></i>
                         Tambah Data</a>
-                    <a href="{{ route('dashboard.') }}" class=" btn btn-dark"><i class="fas fa-file-pdf"
+                    <a href="{{ route('dashboard.materials.print') }}" class=" btn btn-dark"><i class="fas fa-file-pdf"
                             aria-hidden="true"></i>
                         Cetak PDF</a>
                 </div>

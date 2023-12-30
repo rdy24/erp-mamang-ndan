@@ -23,6 +23,11 @@ class Bill extends Model
         return $this->belongsTo(Purchase::class);
     }
 
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+
     public static function setKodeBill()
     {
         $latest = Bill::whereYear('created_at', date('Y'))->latest()->first();

@@ -56,6 +56,9 @@ Dashboard | {{ config('app.name') }}
                 <i class="fas fa-trash"></i> Hapus
             </a>
             @endif
+            <a href="{{ route('dashboard.manufacturing-orders.print', $manufacturingOrder->id) }}" class="btn btn-dark">
+                <i class="fas fa-file-pdf"></i> Print
+            </a>
         </div>
     </div>
 

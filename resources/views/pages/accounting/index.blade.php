@@ -27,8 +27,8 @@ Accounting | {{ config('app.name') }}
                         <div class="input-group">
                             <select name="status" id="status" class="form-control">
                                 <option value="">-- Pilih Status --</option>
-                                <option value="Debit">Debit</option>
-                                <option value="Kredit">Kredit</option>
+                                <option value="Debit" {{ request()->status == 'Debit' ? 'selected' : '' }}>Debit</option>
+                                <option value="Kredit" {{ request()->status == 'Kredit' ? 'selected' : '' }}>Kredit</option>
                             </select>
                             <div class="input-group-btn mx-4">
                                 <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
@@ -37,14 +37,22 @@ Accounting | {{ config('app.name') }}
                     </div>
                 </form>
                 <div class="card-body">
-                    @if (request()->status == 'Debit')
-                    <h6>Pemasukan : {{ $total }}</h6>
-                    @elseif (request()->status == 'Kredit')
-                    <h6>Pengeluaran : {{ $total }}</h6>
-                    @else
-                    <h6>Pemasukan : {{ $debit }}</h6>
-                    <h6>Pengeluaran : {{ $kredit }}</h6>
-                    @endif
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            @if (request()->status == 'Debit')
+                            <h6>Pemasukan : {{ $total }}</h6>
+                            @elseif (request()->status == 'Kredit')
+                            <h6>Pengeluaran : {{ $total }}</h6>
+                            @else
+                            <h6>Pemasukan : {{ $debit }}</h6>
+                            <h6>Pengeluaran : {{ $kredit }}</h6>
+                            <h6>{{ $keterangan }}</h6>
+                            @endif
+                        </div>
+                        <div>
+                            <a href="{{ route('dashboard.accounting.print') }}" class="btn btn-primary">Print</a>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped" id="table-1">
                             <thead>
@@ -52,25 +60,24 @@ Accounting | {{ config('app.name') }}
                                     <th>No</th>
                                     <th>Tanggal</th>
                                     <th>Kode Pembayaran</th>
-                                    <th>Kode Purchase / Sale</th>
+                                    <th>Kode Invoice / Bill</th>
                                     <th>Status</th>
                                     <th>Jumlah</th>
                                 </tr>
-
                             </thead>
                             <tbody>
                                 @foreach ($accountings as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->tanggal }}</td>
+                                    <td>{{ $item->tanggal->format('d-m-Y') }}</td>
                                     <td>{{ $item->payment->kode_payment }}</td>
                                     @if (request()->status == 'Debit')
-                                    <td>{{ $item->payment->sale->kode_sales }}</td>
+                                    <td>{{ $item->payment->invoice->kode_invoice }}</td>
                                     @elseif (request()->status == 'Kredit')
-                                    <td>{{ $item->payment->bill->purchase->kode_purchase }}</td>
+                                    <td>{{ $item->payment->bill->kode_bill }}</td>
                                     @else
                                     <td>
-                                        {{ $item->payment->bill->purchase->kode_purchase ?? $item->payment->sale->kode_sales }}
+                                        {{ $item->payment->bill->kode_bill ?? $item->payment->invoice->kode_invoice }}
                                     </td>
                                     @endif
                                     <td>{{ $item->status }}</td>

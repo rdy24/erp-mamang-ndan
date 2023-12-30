@@ -21,7 +21,7 @@ Dashboard | {{ config('app.name') }}
             <a href="{{ route('dashboard.products.create') }}" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Tambah Produk
             </a>
-            <a href="{{ route('dashboard.products.create') }}" class="btn btn-primary">
+            <a href="{{ route('dashboard.products.print') }}" class="btn btn-primary">
                 <img src="{{ asset('assets/img/vuesax/bold/document-download.png') }}" alt="icon download"
                     style="height: 25px">
             </a>

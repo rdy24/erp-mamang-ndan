@@ -91,4 +91,13 @@ class MaterialController extends Controller
 
         return redirect()->route('dashboard.materials.index')->with('success', 'Bahan berhasil dihapus');
     }
+
+    public function print()
+    {
+        $materials = Material::all();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pages.materials.print', ['materials' => $materials]);
+
+        return $pdf->stream('materials.pdf');
+    }
 }

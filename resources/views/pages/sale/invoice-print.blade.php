@@ -28,7 +28,7 @@
 
         th,
         td {
-            border: 1px solid #ddd;
+            border: 1px solid #000;
             padding: 10px;
             text-align: left;
         }

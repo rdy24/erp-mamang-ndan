@@ -46,12 +46,12 @@ Sale | {{ config('app.name') }}
                 Print Invoice
             </a>
             @endif
-            @if ($sale->status == 'Invoice' && $sale->invoice_status == 'Posted' && !$sale->payment)
+            @if ($sale->status == 'Invoice' && $sale->invoice_status == 'Posted' && !$sale->invoice->payment)
             <button type="button" class="btn btn-info" id="modalButton">
                 Register Payment
             </button>
             @endif
-            @if ($sale?->payment?->status == 'Paid' && !$sale->delivery_status)
+            @if ($sale?->invoice?->payment?->status == 'Paid' && !$sale->delivery_status)
             <a href="{{ route('dashboard.sale.deliver-product', $sale->id) }}" class="btn btn-success">
                 Deliver Product
             </a>
@@ -181,7 +181,7 @@ Sale | {{ config('app.name') }}
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label for="amount">Jumlah</label>
-                                    <input type="text" name="amount" id="amount" class="form-control">
+                                    <input type="text" name="amount" id="amount" class="form-control" value="{{ $sale->total }}">
                                 </div>
                                 <div class="mb-2">
                                     <label for="payment_date">Tanggal</label>

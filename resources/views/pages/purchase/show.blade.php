@@ -22,8 +22,20 @@ Purchase | {{ config('app.name') }}
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
             @if ($purchase->status == 'RFQ')
-            <a href="{{ route('dashboard.purchase.rfq.confirm', $purchase->id) }}" class="btn btn-info">
+            <a href="{{ route('dashboard.purchase.rfq.send', $purchase->id) }}" class="btn btn-dark"> Send RFQ By Email
+            </a>
+            <a href="{{ route('dashboard.purchase.rfq.print', $purchase->id) }}" class="btn btn-info">
+                Print RFQ
+            </a>
+            <a href="{{ route('dashboard.purchase.rfq.confirm', $purchase->id) }}" class="btn btn-success">
                 <i class="fas fa-check"></i> Confirm Order
+            </a>
+            @endif
+            @if ($purchase->status == 'Purchase Order')
+            <a href="{{ route('dashboard.purchase-order.send', $purchase->id) }}" class="btn btn-dark"> Send Purchase Order By Email
+            </a>
+            <a href="{{ route('dashboard.purchase-order.print', $purchase->id) }}" class="btn btn-info">
+                Print Purchase Order
             </a>
             @endif
             @if ($purchase->status == 'Purchase Order' && $purchase->bill_status == 'Nothing to Bill' &&

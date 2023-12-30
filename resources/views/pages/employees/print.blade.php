@@ -52,30 +52,26 @@
 <body>
 
     <div id="quotation">
-        <h1>Quotation</h1>
-
-        <div>
-            <strong>Customer:</strong> {{ $sale->customer->name }}<br>
-            <strong>Date:</strong> {{ $sale->created_at->format('d M Y') }}
-        </div>
+        <h1>List Employee</h1>
 
         <table>
             <thead>
                 <tr>
-                    <th>Produk</th>
-                    <th>Jumlah</th>
-                    <th>Unit Price</th>
-                    <th>Total</th>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Job Position</th>
+                    <th>Departemen</th>
+                    <th>Alamat</th>
                 </tr>
             </thead>
             <tbody>
-                {{-- @dd($sale->sale_details) --}}
-                @foreach ($sale->sale_details as $item)
+                @foreach ($employees as $employee)
                 <tr>
-                    <td>{{ $item->product->nama_produk }}</td>
-                    <td>{{ $item->qty }}</td>
-                    <td>Rp. {{ number_format($item->product->harga) }}</td>
-                    <td>Rp. {{ number_format($item->qty * $item->product->harga) }}</td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $employee->name }}</td>
+                    <td>{{ $employee->jobPosition->name }}</td>
+                    <td>{{ $employee->department->name }}</td>
+                    <td>{{ $employee->address }}</td>
                 </tr>
                 @endforeach
             </tbody>

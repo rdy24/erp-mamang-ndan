@@ -241,4 +241,11 @@ class ManufacturingOrderController extends Controller
 
         return redirect()->route('dashboard.manufacturing-orders.show', $manufacturingOrder)->with('success', 'Manufacturing Order berhasil dikonfirmasi');
     }
+
+    public function print(ManufacturingOrder $manufacturingOrder)
+    {
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pages.manufacturing-order.print', ['manufacturingOrder' => $manufacturingOrder]);
+
+        return $pdf->download($manufacturingOrder->kode_order . '.pdf');
+    }
 }

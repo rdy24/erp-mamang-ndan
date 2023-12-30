@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Accounting;
 use App\Models\Customer;
+use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\QuotationTemplate;
@@ -134,24 +135,40 @@ class SaleController extends Controller
     public function print(Sale $sale)
     {
         $pdf = Pdf::loadView('pages.sale.quotation-print', ['sale' => $sale]);
+        return $pdf->stream();
         // return view('pages.sale.quotation-print', ['sale' => $sale]);
     }
 
     public function createInvoice(Sale $sale)
     {
-        $sale->update([
-            'status' => 'Invoice',
-            'invoice_status' => 'Draft',
-        ]);
+        DB::transaction(function () use ($sale) {
+            $sale->update([
+                'status' => 'Invoice',
+                'invoice_status' => 'Draft',
+            ]);
 
+
+            $sale->invoice()->create([
+                'kode_invoice' => Invoice::setKodeInvoice(),
+                'invoice_date' => now(),
+                'accounting_date' => now(),
+                'status' => 'Draft',
+            ]);
+        });
         return redirect()->route('dashboard.sale.quotation.show', $sale->id)->with('success', 'Invoice berhasil dibuat');
     }
 
     public function confirmInvoice(Sale $sale)
     {
-        $sale->update([
-            'invoice_status' => 'Posted',
-        ]);
+        DB::transaction(function () use ($sale) {
+            $sale->update([
+                'invoice_status' => 'Posted',
+            ]);
+
+            $sale->invoice->update([
+                'status' => 'Posted',
+            ]);
+        });
 
         return redirect()->route('dashboard.sale.quotation.show', $sale->id)->with('success', 'Invoice berhasil dikonfirmasi');
     }
@@ -168,7 +185,7 @@ class SaleController extends Controller
 
             $payment = Payment::create([
                 'kode_payment' => Payment::setKodePayment(),
-                'sale_id' => $sale->id,
+                'invoice_id' => $sale->invoice->id,
                 'payment_method' => $data['type'],
                 'bank_name' => $request->bank_name,
                 'account_number' => $request->account_number,

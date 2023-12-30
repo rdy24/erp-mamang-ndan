@@ -26,6 +26,9 @@ Job Position | {{ config('app.name') }}
                     <a href="{{ route('dashboard.job-positions.create') }}" class="btn btn-primary">
                         <i class="fas fa-plus"aria-hidden="true"></i>
                         Tambah Data</a>
+                    <a href="{{ route('dashboard.job-positions.print') }}" class="btn btn-dark">
+                        <i class="fas fa-file-pdf"></i> Print
+                    </a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

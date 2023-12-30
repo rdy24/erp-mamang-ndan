@@ -152,6 +152,26 @@ class PurchaseController extends Controller
         return redirect()->route('dashboard.purchase.rfq')->with('success', 'RFQ berhasil dihapus');
     }
 
+    public function sendRfq(Purchase $purchase)
+    {
+        $notification = new \App\Notifications\RfqNotification($purchase);
+
+        $purchase->vendor->notify($notification);
+
+        return redirect()->route('dashboard.purchase.rfq.show', $purchase->id)->with('success', 'RFQ berhasil dikirim');
+    }
+
+    public function printRfq(Purchase $purchase)
+    {
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pages.purchase.rfq-print', ['purchase' => $purchase]);
+        $pdfData = $pdf->output();
+
+        return response()->streamDownload(
+            fn () => print($pdfData),
+            'RFQ-' . $purchase->kode_purchase . '.pdf'
+        );
+    }
+
     public function rfqConfirm(Purchase $purchase)
     {
         $purchase->update([
@@ -269,5 +289,25 @@ class PurchaseController extends Controller
         });
 
         return redirect()->route('dashboard.purchase-order.show', $purchase->id)->with('success', 'Bill berhasil dibayar');
+    }
+
+    public function sendPurchaseOrder(Purchase $purchase)
+    {
+        $notification = new \App\Notifications\PurchaseOrderNotification($purchase);
+
+        $purchase->vendor->notify($notification);
+
+        return redirect()->route('dashboard.purchase.rfq.show', $purchase->id)->with('success', 'RFQ berhasil dikirim');
+    }
+
+    public function printPurchaseOrder(Purchase $purchase)
+    {
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pages.purchase.purchaseOrder-print', ['purchase' => $purchase]);
+        $pdfData = $pdf->output();
+
+        return response()->streamDownload(
+            fn () => print($pdfData),
+            'Purchase-Order-' . $purchase->kode_purchase . '.pdf'
+        );
     }
 }

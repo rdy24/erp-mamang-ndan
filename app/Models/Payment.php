@@ -18,9 +18,9 @@ class Payment extends Model
         return $this->belongsTo(Bill::class);
     }
 
-    public function sale()
+    public function invoice()
     {
-        return $this->belongsTo(Sale::class);
+        return $this->belongsTo(Invoice::class);
     }
 
     public static function setKodePayment()

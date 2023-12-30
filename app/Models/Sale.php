@@ -41,9 +41,9 @@ class Sale extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function payment()
+    public function invoice()
     {
-        return $this->hasOne(Payment::class);
+        return $this->hasOne(Invoice::class);
     }
 
     public function quotation_template()

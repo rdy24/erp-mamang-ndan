@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode_payment')->nullable();
             $table->foreignId('bill_id')->nullable()->constrained('bills')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('sale_id')->nullable()->constrained('sales')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('invoice_id')->nullable()->constrained('invoices')->onDelete('cascade')->onUpdate('cascade');
             $table->enum('payment_method', ['Cash', 'Transfer'])->nullable();
             $table->string('bank_name')->nullable();
             $table->string('account_number')->nullable();

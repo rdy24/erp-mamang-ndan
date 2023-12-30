@@ -109,4 +109,12 @@ class CustomerController extends Controller
         $customer->delete();
         return redirect()->route('dashboard.customers.index')->with('success', 'Customer berhasil dihapus');
     }
+
+    public function print()
+    {
+        $customers = Customer::all();
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pages.customers.print', ['customers' => $customers]);
+
+        return $pdf->stream('customers.pdf');
+    }
 }

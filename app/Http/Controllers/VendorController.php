@@ -119,4 +119,12 @@ class VendorController extends Controller
 
         return redirect()->route('dashboard.vendors.index')->with('success', 'Vendor berhasil dihapus');
     }
+
+    public function print()
+    {
+        $vendors = Vendor::all();
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pages.vendors.print', ['vendors' => $vendors]);
+
+        return $pdf->stream('vendors.pdf');
+    }
 }

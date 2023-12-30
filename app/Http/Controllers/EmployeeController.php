@@ -150,4 +150,13 @@ class EmployeeController extends Controller
 
         return redirect()->route('dashboard.employees.index')->with('success', 'Employee deleted successfully!');
     }
+
+    public function print()
+    {
+        $employees = Employee::all();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pages.employees.print', ['employees' => $employees]);
+
+        return $pdf->stream('employees.pdf');
+    }
 }
